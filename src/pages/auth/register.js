@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth, googleProvider } from "@/config/firebase";
 import { toast } from "react-toastify";
@@ -36,7 +36,7 @@ const Register = () => {
   const handleGoogleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
- await signInWithRedirect(auth, googleProvider).then(res=>{
+ await signInWithPopup(auth, googleProvider).then(res=>{
         console.log("res.user", res.user);
         const cerdentials = GoogleAuthProvider.credentialFromResult(res);
         console.log("cerdentials", cerdentials);
