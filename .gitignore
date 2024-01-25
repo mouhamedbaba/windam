@@ -5,8 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-.src/config/firebase.js
-/src/config/firebase.js
+
 
 # testing
 /coverage
