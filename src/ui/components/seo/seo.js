@@ -1,8 +1,5 @@
-interface Props {
-    title : string,
-    description : string,
-}
-export const Seo = ({title, description}:Props) =>{
+
+export const Seo = ({title, description}) =>{
         return(
             <div></div>
         )
