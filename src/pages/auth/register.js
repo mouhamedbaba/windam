@@ -49,8 +49,7 @@ const Register = () => {
         setDoc(doc(db, "userChats", data.user.uid), {});
         console.log(data);
         router.push("/chat");
-      }).catch (err =>{
-
+      }).catch (error =>{
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log(errorCode);
