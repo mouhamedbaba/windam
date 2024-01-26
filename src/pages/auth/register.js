@@ -4,6 +4,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db, auth, googleProvider } from "@/config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 
 const Register = () => {
@@ -116,7 +117,7 @@ const Register = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 w-full text-white py-2 px-4 rounded-md"
+          className="bg-blue-500 w-full text-white py-2 px-4 rounded-md font-semibold"
         >
           {isLoading ? "chargement..." : "s'inscrire"}
         </button>
@@ -142,6 +143,7 @@ const Register = () => {
 
         </button>
       </div>
+        <Link href="/auth/login" className="text-blue-500 flex justify-center font-bold">Se connecter</Link>
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth, googleProvider } from "@/config/firebase";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const Login = () => {
   const handleGoogleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
- await signInWithRedirect(auth, googleProvider).then(res=>{
+ await signInWithPopup(auth, googleProvider).then(res=>{
         console.log("res.user", res.user);
         const cerdentials = GoogleAuthProvider.credentialFromResult(res);
         console.log("cerdentials", cerdentials);
@@ -38,10 +39,9 @@ const Login = () => {
           displayName:res.user.displayName,
           photoUrl : res.user.photoURL
         });
-        setDoc(doc(db, "userChats", data.user.uid), {});
-        console.log(data);
+        setDoc(doc(db, "userChats", res.user.uid), {});
         router.push("/chat");
-      }).catch (err =>{
+      }).catch (error =>{
 
           const errorCode = error.code;
           const errorMessage = error.message;
@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-bold mb-4 text-center">S'inscrire</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Se Connecter</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -88,9 +88,9 @@ const Login = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 w-full text-white py-2 px-4 rounded-md"
+          className="bg-blue-500 w-full text-white py-2 px-4 rounded-md font-semibold"
         >
-          {isLoading ? "chargement..." : "s'inscrire"}
+          {isLoading ? "chargement..." : "Connexion"}
         </button>
       </form>
       <hr className="my-6" />
@@ -112,7 +112,9 @@ const Login = () => {
           {/* <FontAwesomeIcon icon={faGithub} className="mr-2" /> */}
           GitHub
         </button>
+
       </div>
+        <Link href="/auth/register" className="text-blue-500 flex justify-center font-bold">S'incrire</Link>
     </div>
   );
 };

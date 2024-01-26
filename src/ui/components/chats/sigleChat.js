@@ -1,11 +1,15 @@
 import { db } from "@/config/firebase";
 import { AuthContext } from "@/context/authContext";
+import { ChatContext } from "@/context/chatContext";
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc  } from "firebase/firestore";
 import React, { useContext } from "react";
 import { toast } from "react-toastify";
 
+
 export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+
 
 
     const handleSelect = async () => {
@@ -30,9 +34,9 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
             },
             [combinedId + ".date"]: serverTimestamp(),
           }).then((res) => {
-            toast('ok')
+            // toast('ok')
           }).catch((err) => {
-            toast('nope')
+            // toast('nope')
           })
   
           await updateDoc(doc(db, "userChats", user.uid), {
@@ -42,6 +46,8 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
+    dispatch({ type: "CHANCE_USER", payload: user });
+
         }
       } catch (err) {
         console.log(err);
@@ -66,7 +72,7 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
             {user.displayName}
           </div>
           <div className="mt-1 truncate text-xs leading-5 text-gray-500">
-            lindsay.walton@example.com
+            
           </div>
         </div>
       </div>

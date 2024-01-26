@@ -87,7 +87,7 @@ export const Sidebar = () => {
                 </div>
                 <div className=" h-12 w-12">
                   {
-                    currentUser.photoURL ? (
+                    currentUser?.photoURL ? (
                       <img src={currentUser.photoURL} alt="" className='w-full h-full rounded-full' />
                       ) :(
                         

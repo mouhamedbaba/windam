@@ -13,7 +13,7 @@ export const SendMessageForm = () => {
   const {currentUser } = useContext(AuthContext)
   const {data } = useContext(ChatContext)
 
-  const haddlesend = async () =>{
+  const handleSend = async () =>{
     await updateDoc(doc(db, "chats", data.chatId),{
       messages : arrayUnion({
         id: uuid(),
@@ -39,6 +39,10 @@ export const SendMessageForm = () => {
       [data.chatId + ".date"]: serverTimestamp(),
     })
   }
+
+  const handleKey = (e) => {
+    e.code === "Enter" && handleSend();
+  };
 
   return (
     <div className="flex gap-1 h-16">
@@ -80,6 +84,7 @@ export const SendMessageForm = () => {
                         type="text"
                         placeholder="Type a message"
                         autoFocus
+                        onKeyDown={handleKey}
                         value={text}
                         className="bg-transparent h-full w-full outline-none px-3"
                         onChange={(e) => setText(e.target.value)}
@@ -127,7 +132,7 @@ export const SendMessageForm = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="bg-red-600 h-full rounded-xl  px-3 opacity-80 hover:opacity-100 hover:py-0 cursor-pointer transition duration-500" onClick={haddlesend}>
+                <div className="bg-red-600 h-full rounded-xl  px-3 opacity-80 hover:opacity-100 hover:py-0 cursor-pointer transition duration-500" onClick={handleSend}>
                   <div className="h-full flex justify-center items-center">
                     <svg
                       viewBox="0 0 24 24"
