@@ -11,7 +11,7 @@ export const ChatContainer = () => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
   const [isLoading, setIsLoading] = useState(false);
-  const ref = useRef();
+
 
   useEffect(() => {
     setIsLoading(true);
