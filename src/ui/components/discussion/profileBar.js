@@ -2,11 +2,11 @@ import { ChatContext } from '@/context/chatContext';
 import React, { useContext } from 'react'
 
 export const ProfileBar = () => {
-  const { data } = useContext(ChatContext);
+  const { data, dispatch } = useContext(ChatContext);
   return (
 
-    <div className="bg-white dark:bg-slate-800  h-24 rounded-3xl px-4">
-                <div className="h-full w-full flex flex-row gap-2 justify-center items-center py-4">
+    <div className={`${data.user?.uid ? "block" : "hidden"} bg-white dark:bg-slate-800  h-24 rounded-3xl px-4`}>
+                <div className="h-full w-full flex flex-row gap-2 justify-center items-center py-4" >
                   <div className=" grow flex gap-2  ">
                     <div className=" grow">
                       <div className="flex min-w-0 gap-x-4">
@@ -17,6 +17,7 @@ export const ProfileBar = () => {
                         ></div>
                         <div className="min-w-0 flex-auto">
                           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
+
                             {data.user?.displayName}
                           </div>
                           <div className="mt-1 flex items-center gap-x-1.5">
@@ -34,7 +35,7 @@ export const ProfileBar = () => {
                       <button className="bg-white text-slate-900 border px-5 rounded-2xl font-bold h-full">
                         Profile
                       </button>
-                      <button className="text-white bg-slate-900 border px-5 rounded-2xl font-bold h-full">
+                      <button className="text-white bg-slate-900 border px-5 rounded-2xl font-bold h-full disabled opacity-15 cursor-not-allowed" disabled>
                         Call
                       </button>
                     </div>

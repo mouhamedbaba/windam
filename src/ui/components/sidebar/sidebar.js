@@ -1,10 +1,16 @@
 import { AuthContext } from '@/context/authContext'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 export const Sidebar = () => {
   const { currentUser } = useContext(AuthContext)
+  const [isProfileIfoCollapsed, setIsProfileIfoCollapsed] = useState(true)
+
+  const handleCollapse  = () =>{
+    setIsProfileIfoCollapsed(!isProfileIfoCollapsed)
+  }
+
   return (
-    <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl">
+    <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl relative">
               <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
                   <svg
                     viewBox="0 0 24 24"
@@ -85,7 +91,9 @@ export const Sidebar = () => {
                     </svg>
                   </div>
                 </div>
-                <div className=" h-12 w-12">
+                <div className=" h-12 w-12 cursor-pointer"
+                onClick={handleCollapse}
+                >
                   {
                     currentUser?.photoURL ? (
                       <img src={currentUser.photoURL} alt="" className='w-full h-full rounded-full' />
@@ -118,6 +126,35 @@ export const Sidebar = () => {
                   }
                 </div>
               </div>
+
+              <div className ={`transition duration-1000 ${isProfileIfoCollapsed ? "hidden transition duration-1000" : "block transition duration-1000"} bottom-16  -right-16 z-30 bg-slate-800 h-80 w-60 absolute p-4 rounded-lg overflow-x-hidden overflow-Y-auto`}>
+                <div className="flex justify-center">
+                  <div className="w-20 h-20 rounded-full relative">
+                  <img src={currentUser?.photoURL} alt={currentUser?.displayName} className='w-20 h-20 rounded-full relative' />
+                  <div className="absolute edit-profile  right-0 bottom-0 rounded-sm cursor-pointer bg-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 stroke-green-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                      />
+                    </svg>
+                  </div>
+                  </div>
+                </div>
+                <div className="">
+                  <p className='text-center text-slate-100 font-bold mt-2'>{currentUser?.displayName}</p>
+                  <p className=' text-slate-100 truncate mt-5'>{currentUser?.email}</p>
+                  
+                </div>
+             </div>
             </div>
   )
 }

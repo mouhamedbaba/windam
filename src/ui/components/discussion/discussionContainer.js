@@ -25,11 +25,25 @@ export const DiscussionContainer = () => {
 
 return (
   <div className="bg-white dark:bg-slate-800 h-full rounded-xl py-2 overflow-hidden relative">
+    {
+      data.user?.uid ? (
+        
     <div className="h-full px-5 py-2 overflow-auto">
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
     </div>
+      ) : (
+        <div className="flex justify-center items-center h-full px-3">
+                    <div className="">
+                      <img src="/assets/svg/nochat.jpg" />
+                      <h1 className="text-center font-semibold">
+                       Clicker sur un messgaes pour l'ouvrir{" "}
+                      </h1>
+                    </div>
+                  </div>
+      )
+    }
   </div>
 );
 

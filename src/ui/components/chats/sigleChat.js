@@ -60,7 +60,7 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
 
   
   return (
-    <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer" key={key}>
+    <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer w-full" key={key}>
       <div className="flex min-w-0 gap-x-4">
         <div
           className="h-12 w-12 flex-none rounded-full bg-gray-500 animate-pulse"
@@ -70,10 +70,26 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
         <div className="min-w-0 flex-auto">
           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
             {user.displayName}
+            {
+              user.uid === currentUser.uid && (
+                <span className="ml-2 inline-flex items-center rounded-full bg-slate-600 px-2.5 py-0.5 text-xs font-medium text-slate-100 dark:bg-slate-700 dark:text-slate-300">You</span>
+              )
+            }
           </div>
-          <div className="mt-1 truncate text-xs leading-5 text-gray-500">
-            
-          </div>
+          {user.displayName}
+            {
+              user.uid === currentUser.uid ? (
+                <div className="mt-1 truncate text-xs leading-5 text-gray-500">
+                  message your self
+                </div>
+              ) :(
+                <div className="mt-1 truncate text-xs leading-5 text-gray-500">
+                chat with {user.displayName}
+
+                </div>
+              )
+            }
+
         </div>
       </div>
       <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">

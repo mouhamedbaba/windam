@@ -19,15 +19,13 @@ export const Message = ({ message }) => {
      className={` ${message.senderId === currentUser.uid ? "ownmessagebox" : "elsemessagebox"} `}>
     <div className="flex flex-col justify-end items-end pb-5">
       {
-        message.senderId !== currentUser.uid ? (
+        message.senderId !== currentUser.uid && (
           <div
           className="h-10 w-10 flex-none rounded-full bg-gray-500 animate-pulse"
           // src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
           // alt=""
         ></div>
-        ) : (
-          <></>
-        )
+        ) 
       }
     </div>
     <div>

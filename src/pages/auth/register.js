@@ -21,13 +21,17 @@ const Register = () => {
       console.log(data.user);
       await updateProfile(data.user, {
         displayName,
-        // photoURL: downloadURL,
       });
 
       await setDoc(doc(db, "users", data.user.uid), {
         uid: data.user.uid,
         email: email,
-        displayName,
+        displayName: displayName,
+        photoURL: null,
+        bio: null,
+        statut:null,
+        phoneNumber: null,
+        online : false,
       });
       await setDoc(doc(db, "userChats", data.user.uid), {});
       console.log(data);
@@ -51,7 +55,11 @@ const Register = () => {
           uid: res.user.uid,
           email: res.user.email,
           displayName:res.user.displayName,
-          photoUrl : res.user.photoURL
+          photoUrl : res.user.photoURL,
+          bio: null,
+          statut:null,
+          phoneNumber: null,
+          online : false,
         });
         setDoc(doc(db, "userChats", res.user.uid), {});
         router.push("/chat");

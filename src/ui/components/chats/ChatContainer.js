@@ -12,24 +12,21 @@ export const ChatContainer = () => {
   const { dispatch } = useContext(ChatContext);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const getChats = () => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
       setChats(doc.data());
       console.log("chats", doc.data());
       setIsLoading(false);
     });
-  
+
     return () => {
       unsub();
     };
   };
-  
-
 
   useEffect(() => {
     setIsLoading(true);
-  
+
     currentUser.uid && getChats();
   }, [currentUser.uid]);
 
@@ -49,11 +46,14 @@ export const ChatContainer = () => {
             className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full"
           >
             {!isLoading ? (
-              Object?.values(chats)?.length === 0 ? (
+              0 === 0 ? (
                 <div className="flex justify-center items-center h-full px-3">
-                <div className="">
-                  <img src ="/assets/svg/nochat.jpg" />
-                  <h1 className="text-center font-semibold">Pas encore de discussions, explorer l'app et trouver des amis </h1>
+                  <div className="">
+                    <img src="/assets/svg/nochat.jpg" />
+                    <h1 className="text-center font-semibold">
+                      Pas encore de discussions, explorer l'app et trouver des
+                      amis{" "}
+                    </h1>
                   </div>
                 </div>
               ) : (
