@@ -44,7 +44,7 @@ export const ChatContainer = () => {
         <div className="mt-10 h-full rounded-sm">
           <ul
             role="list"
-            className="divide-y divide-gray-100 dark:divide-gray-700 overflow-auto h-full"
+            className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full"
           >
             {!isLoading ? (
               Object.keys(chats).length === 0 ? (
