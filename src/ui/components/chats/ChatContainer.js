@@ -13,21 +13,23 @@ export const ChatContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
 
 
+  const getChats = () => {
+    const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+      setChats(doc.data());
+      console.log("chats", doc.data());
+      setIsLoading(false);
+    });
+  
+    return () => {
+      unsub();
+    };
+  };
+  
+
+
   useEffect(() => {
     setIsLoading(true);
-
-    const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
-        console.log("chats", chats);
-        setIsLoading(false);
-      });
-
-      return () => {
-        unsub();
-      };
-    };
-
+  
     currentUser.uid && getChats();
   }, [currentUser.uid]);
 
@@ -47,7 +49,7 @@ export const ChatContainer = () => {
             className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full"
           >
             {!isLoading ? (
-              Object.keys(chats).length === 0 ? (
+              Object?.values(chats)?.length === 0 ? (
                 <div className="flex justify-center items-center h-full px-3">
                 <div className="">
                   <img src ="/assets/svg/nochat.jpg" />

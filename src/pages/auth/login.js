@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db, auth, googleProvider } from "@/config/firebase";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -16,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const data = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       router.push("/chat");
     } catch (error) {
       const errorCode = error.code;
@@ -29,25 +35,41 @@ const Login = () => {
   const handleGoogleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
- await signInWithPopup(auth, googleProvider).then(res=>{
-        console.log("res.user", res.user);
-        const cerdentials = GoogleAuthProvider.credentialFromResult(res);
-        console.log("cerdentials", cerdentials);
-        setDoc(doc(db, "users", res.user.uid), {
+
+    try {
+      const res = await signInWithPopup(auth, new GoogleAuthProvider());
+      const userDocRef = doc(db, "users", res.user.uid);
+      const userChatsDocRef = doc(db, "userChats", res.user.uid);
+
+      // Vérifier si les documents existent avant de les créer
+      const userDocSnapshot = await getDoc(userDocRef);
+      const userChatsDocSnapshot = await getDoc(userChatsDocRef);
+
+      if (!userDocSnapshot.exists()) {
+        setDoc(userDocRef, {
           uid: res.user.uid,
           email: res.user.email,
-          displayName:res.user.displayName,
-          photoUrl : res.user.photoURL
+          displayName: res.user.displayName,
+          photoUrl: res.user.photoURL,
         });
-        setDoc(doc(db, "userChats", res.user.uid), {});
-        router.push("/chat");
-      }).catch (error =>{
+      }
 
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
-      }) 
+      if (!userChatsDocSnapshot.exists()) {
+        setDoc(userChatsDocRef, {});
+      }
+
+      // Rediriger vers la page de chat
+      router.push("/chat");
+    } catch (error) {
+      // Gérer spécifiquement les erreurs de connexion avec Google
+      console.error(
+        "Erreur lors de la connexion avec Google:",
+        error.code,
+        error.message
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -112,9 +134,13 @@ const Login = () => {
           {/* <FontAwesomeIcon icon={faGithub} className="mr-2" /> */}
           GitHub
         </button>
-
       </div>
-        <Link href="/auth/register" className="text-blue-500 flex justify-center font-bold">S'incrire</Link>
+      <Link
+        href="/auth/register"
+        className="text-blue-500 flex justify-center font-bold"
+      >
+        S'incrire
+      </Link>
     </div>
   );
 };
