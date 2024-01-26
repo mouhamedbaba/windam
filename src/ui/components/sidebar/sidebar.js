@@ -1,6 +1,8 @@
-import React from 'react'
+import { AuthContext } from '@/context/authContext'
+import React, { useContext } from 'react'
 
 export const Sidebar = () => {
+  const { currentUser } = useContext(AuthContext)
   return (
     <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl">
               <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
@@ -84,6 +86,11 @@ export const Sidebar = () => {
                   </div>
                 </div>
                 <div className=" h-12 w-12">
+                  {
+                    currentUser.photoURL ? (
+                      <img src={currentUser.photoURL} alt="" className='w-full h-full rounded-full' />
+                      ) :(
+                        
                   <div className="w-fll h-full rounded-full bg-slate-800 p-3">
                     <svg
                       className="w-fll h-full stroke-slate-100"
@@ -107,6 +114,8 @@ export const Sidebar = () => {
                       />
                     </svg>
                   </div>
+                        )
+                  }
                 </div>
               </div>
             </div>

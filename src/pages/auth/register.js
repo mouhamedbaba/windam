@@ -52,7 +52,7 @@ const Register = () => {
           displayName:res.user.displayName,
           photoUrl : res.user.photoURL
         });
-        setDoc(doc(db, "userChats", data.user.uid), {});
+        setDoc(doc(db, "userChats", res.user.uid), {});
         console.log(data);
         router.push("/chat");
       }).catch (error =>{

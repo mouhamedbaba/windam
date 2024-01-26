@@ -51,6 +51,7 @@ export const ChatContainer = () => {
             className="divide-y divide-gray-100 dark:divide-gray-700 overflow-auto h-full"
           >
             {!isLoading  ? (
+              chats &&
               Object.entries(chats)
                 ?.sort((a, b) => b[1].date - a[1].date)
                 .map((chat) => (
