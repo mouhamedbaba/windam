@@ -2,35 +2,38 @@ import { db } from "@/config/firebase";
 import { AuthContext } from "@/context/authContext";
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc  } from "firebase/firestore";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 
-export const SingleChat = ({user, key}) => {
+export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
   const { currentUser } = useContext(AuthContext);
 
 
-  const handleSelect = async (user) => {
-    // Vérifier si le groupe (chats dans Firestore) existe, sinon le créer
+    const handleSelect = async () => {
+
+      //check whether the group(chats in firestore) exists, if not create
+      const combinedId =
+        currentUser.uid > user.uid
+          ? currentUser.uid + user.uid
+          : user.uid + currentUser.uid;
+      try {
+        const res = await getDoc(doc(db, "chats", combinedId));
   
-    const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+        if (!res.exists()) {
+          //create a chat in chats collection
+          await setDoc(doc(db, "chats", combinedId), { messages: [] });
   
-    try {
-      const res = await getDoc(doc(db, "chats", combinedId));
-  
-      if (!res.exists()) {
-        // Créer un chat dans la collection "chats"
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
-  
-        // Créer les chats des utilisateurs
-        if (currentUser.uid && user.uid) {
+          //create user chats
           await updateDoc(doc(db, "userChats", currentUser.uid), {
             [combinedId + ".userInfo"]: {
               uid: user.uid,
               displayName: user.displayName,
             },
             [combinedId + ".date"]: serverTimestamp(),
-          });
+          }).then((res) => {
+            toast('ok')
+          }).catch((err) => {
+            toast('nope')
+          })
   
           await updateDoc(doc(db, "userChats", user.uid), {
             [combinedId + ".userInfo"]: {
@@ -39,14 +42,16 @@ export const SingleChat = ({user, key}) => {
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
-        } else {
-          console.error("Les identifiants d'utilisateur sont indéfinis.");
         }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+      setuserprop([])
+      setusernameprop('')
+    };
+
+
   
   return (
     <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer" key={key}>

@@ -60,13 +60,13 @@ export const SearchBar = () => {
         </button>
       </div>
       {
-        users.length > 0 && <div className="w-60 shadow-2xl p-4 absolute bg-slate-100 rounded-xl z-10">
+        users.length > 0 && <div className="w-64 shadow-2xl py-2 absolute bg-slate-100 rounded-xl z-10">
         <ul
           role="list"
           className="divide-y divide-gray-100 dark:divide-gray-700 overflow-auto h-full"
         > 
           {users.map((user) => (
-            <SingleChat key={user.uid} user={user}  />
+            <SingleChat key={user.uid} user={user} setuserprop={setUsers} setusernameprop={setUsername} />
           ))}
         </ul>
       </div>

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import EmojiPicker from 'emoji-picker-react';
 
 
 export default function Home() {
@@ -6,7 +8,8 @@ export default function Home() {
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24`}
     >
-      index
+       <EmojiPicker />
+       <input type="text" />
     </main>
   );
 }

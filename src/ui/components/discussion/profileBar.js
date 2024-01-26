@@ -1,7 +1,10 @@
-import React from 'react'
+import { ChatContext } from '@/context/chatContext';
+import React, { useContext } from 'react'
 
 export const ProfileBar = () => {
+  const { data } = useContext(ChatContext);
   return (
+
     <div className="bg-white dark:bg-slate-800  h-24 rounded-3xl px-4">
                 <div className="h-full w-full flex flex-row gap-2 justify-center items-center py-4">
                   <div className=" grow flex gap-2  ">
@@ -14,7 +17,7 @@ export const ProfileBar = () => {
                         ></div>
                         <div className="min-w-0 flex-auto">
                           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
-                            Mouhamed Lamotte
+                            {data.user?.displayName}
                           </div>
                           <div className="mt-1 flex items-center gap-x-1.5">
                             <div className="flex-none rounded-full bg-emerald-500/20 p-1  ">

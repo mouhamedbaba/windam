@@ -1,6 +1,45 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { ChatContext } from '@/context/chatContext';
+import { AuthContext } from '@/context/authContext';
+import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import { v4 as uuid } from 'uuid';
+import { toast } from 'react-toastify';
 
 export const SendMessageForm = () => {
+  
+  const [text, setText ] = useState("")
+
+  const {currentUser } = useContext(AuthContext)
+  const {data } = useContext(ChatContext)
+
+  const haddlesend = async () =>{
+    await updateDoc(doc(db, "chats", data.chatId),{
+      messages : arrayUnion({
+        id: uuid(),
+        text,
+        senderId: currentUser.uid,
+        date : Timestamp.now()
+      })
+    }).then(() =>{
+      setText("")
+    }).catch((err) =>{
+      
+    })
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    })
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    })
+  }
+
   return (
     <div className="flex gap-1 h-16">
                 <div className="bg-white dark:bg-slate-800 h-full rounded-xl grow ">
@@ -41,7 +80,9 @@ export const SendMessageForm = () => {
                         type="text"
                         placeholder="Type a message"
                         autoFocus
+                        value={text}
                         className="bg-transparent h-full w-full outline-none px-3"
+                        onChange={(e) => setText(e.target.value)}
                       />
                     </div>
                     <svg
@@ -86,7 +127,7 @@ export const SendMessageForm = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="bg-red-600 h-full rounded-xl  px-3 opacity-80 hover:opacity-100 hover:py-0 cursor-pointer transition duration-500">
+                <div className="bg-red-600 h-full rounded-xl  px-3 opacity-80 hover:opacity-100 hover:py-0 cursor-pointer transition duration-500" onClick={haddlesend}>
                   <div className="h-full flex justify-center items-center">
                     <svg
                       viewBox="0 0 24 24"
