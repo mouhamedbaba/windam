@@ -61,7 +61,7 @@ const Chat = () => {
                         console.log("user authcontxt ==>", user);
             
                         dispatch({ type: "CHANGE_USER", payload: user.data() })
-                        
+                        // 
                       } catch (error) {
                         console.error("Erreur lors de la récupération du chat :", error);
                       }
