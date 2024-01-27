@@ -10,11 +10,20 @@ export const ProfileBar = () => {
                   <div className=" grow flex gap-2  ">
                     <div className=" grow">
                       <div className="flex min-w-0 gap-x-4">
-                        <div
-                          className="h-12 w-12 flex-none rounded-full bg-gray-500 animate-pulse"
-                          // src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          // alt=""
-                        ></div>
+                      {data.user?.photoURL ? (
+              <img
+              className="h-10 w-10 flex-none rounded-full bg-gray-500"
+              src={data.user?.photoURL}
+              alt=""
+            ></img>
+              
+            ) : (
+              <img
+              className="h-10 w-10 flex-none rounded-full bg-gray-500"
+              src = "https://img.freepik.com/vecteurs-premium/icone-profil-utilisateur-dans-style-plat-illustration-vectorielle-avatar-membre-fond-isole-concept-entreprise-signe-autorisation-humaine_157943-15752.jpg?w=740"
+              alt=""
+            ></img>
+            )}
                         <div className="min-w-0 flex-auto">
                           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
 

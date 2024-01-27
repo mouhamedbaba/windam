@@ -5,12 +5,17 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { ChatContext } from "@/context/chatContext";
 import { ChatPulse } from "./chatPulse";
+import { formatTime } from "@/utils/formatTime";
 
 export const ChatContainer = () => {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
   const [isLoading, setIsLoading] = useState(false);
+
+
+  
+  
 
   const getChats = () => {
     const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
@@ -73,11 +78,23 @@ export const ChatContainer = () => {
                             alt="User Avatar"
                           />
                         ) : (
-                          <div className="h-12 w-12 flex-none rounded-full bg-gray-500 animate-pulse"></div>
+                          // https://img.freepik.com/vecteurs-premium/icone-profil-utilisateur-dans-style-plat-illustration-vectorielle-avatar-membre-fond-isole-concept-entreprise-signe-autorisation-humaine_157943-15752.jpg?w=740
+                          <img
+                          className="h-12 w-12 flex-none rounded-full"
+                          src="https://img.freepik.com/vecteurs-premium/icone-profil-utilisateur-dans-style-plat-illustration-vectorielle-avatar-membre-fond-isole-concept-entreprise-signe-autorisation-humaine_157943-15752.jpg?w=740"
+                          alt="User Avatar"
+                        />
                         )}
                         <div className="min-w-0 flex-auto">
                           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
                             {chat[1].userInfo?.displayName}
+
+                          
+            {
+              chat[1].userInfo?.uid === currentUser.uid && (
+                <span className="ml-2 inline-flex items-center rounded-full bg-slate-600 px-2.5 py-0.5 text-xs font-medium text-slate-100 dark:bg-slate-700 dark:text-slate-300">You</span>
+              )
+            }
                           </div>
                           <div className="mt-1 truncate text-xs leading-5 text-gray-500">
                             {chat[1].lastMessage?.text
@@ -88,7 +105,10 @@ export const ChatContainer = () => {
                       </div>
                       <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                         <div className="mt-1 text-xs leading-5 text-gray-500">
-                          <time dateTime="2023-01-23T13:23Z">10:27 AM</time>
+                        <time dateTime={chat[1].date && chat[1].date.toDate()}>
+  {chat[1].date && formatTime(chat[1].date)}
+</time>
+
                         </div>
                         <div className="mt-1 text-xs leading-5 text-gray-500">
                           <div className="inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full dark:border-gray-900">

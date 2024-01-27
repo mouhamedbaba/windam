@@ -29,18 +29,18 @@
     @apply flex justify-end  mb-1
   }
   .ownmessageboxchat {
-    @apply text-slate-100  rounded-l-3xl rounded-t-3xl  px-4 py-2 bg-red-600  font-medium text-sm max-w-80 w-fit
+    @apply text-slate-100  rounded-l-3xl rounded-t-3xl  px-4 py-2 bg-red-600  font-medium text-lg max-w-80 w-fit
   }
   .ownmessageboxdate {
-    @apply text-gray-300 text-base flex justify-end    
+    @apply flex justify-end    
   }
   .elsemessagebox {
     @apply flex justify-start mb-1 gap-x-2
   }
   .elsemessageboxchat {
-    @apply rounded-r-3xl rounded-t-3xl  px-4 py-2 bg-slate-300 text-slate-800 font-medium text-sm max-w-80 w-fit
+    @apply rounded-r-3xl rounded-t-3xl  px-4 py-2 bg-slate-300 text-slate-800 font-medium text-lg max-w-80 w-fit
   }
   .elsemessageboxdate {
-  @apply text-gray-300  flex justify-start     
+  @apply flex justify-start     
   }
 }

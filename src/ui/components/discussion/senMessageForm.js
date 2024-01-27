@@ -26,6 +26,8 @@ export const SendMessageForm = () => {
         text,
         senderId: currentUser.uid,
         date: Timestamp.now(),
+        photoURL: currentUser.photoURL,
+        read : true
       }),
     })
       .then(() => {
@@ -37,6 +39,7 @@ export const SendMessageForm = () => {
         text,
       },
       [data.chatId + ".date"]: serverTimestamp(),
+
     });
 
     
@@ -51,10 +54,10 @@ export const SendMessageForm = () => {
       },
       [data.chatId + ".date"]: serverTimestamp(),
     }).then((res) => {
-      toast.success("Message sent")
+      // toast.success("Message sent")
     }).catch((err) => {
       toast.error("Message not sent")
-      console.log(err);
+      // console.log(err);
     })
   };
 

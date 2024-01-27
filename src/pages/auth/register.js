@@ -27,7 +27,7 @@ const Register = () => {
         uid: data.user.uid,
         email: email,
         displayName: displayName,
-        photoURL: null,
+        photoURL: "https://img.freepik.com/vecteurs-premium/icone-profil-utilisateur-dans-style-plat-illustration-vectorielle-avatar-membre-fond-isole-concept-entreprise-signe-autorisation-humaine_157943-15752.jpg?w=740",
         bio: null,
         statut:null,
         phoneNumber: null,

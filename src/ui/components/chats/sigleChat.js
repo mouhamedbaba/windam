@@ -13,7 +13,6 @@ export const SingleChat = ({user, setuserprop, setusernameprop}) => {
 
 
     const handleSelect = async () => {
-
       //check whether the group(chats in firestore) exists, if not create
       const combinedId =
         currentUser.uid > user.uid
@@ -24,23 +23,23 @@ export const SingleChat = ({user, setuserprop, setusernameprop}) => {
   
         if (!res.exists()) {
           //create a chat in chats collection
-          await setDoc(doc(db, "chats", combinedId), { messages: [] });
-  
+          
           //create user chats
           await updateDoc(doc(db, "userChats", currentUser.uid), {
             [combinedId + ".userInfo"]: {
               uid: user.uid,
               displayName: user.displayName,
-              // photoURL: user.photoURL,
+              photoUrl: user.photoUrl,
             },
             [combinedId + ".date"]: serverTimestamp(),
             
           }).then((res) => {
-            // toast('ok')
+            toast('ok')
           }).catch((err) => {
             toast('nope')
             console.log(err);
           })
+          await setDoc(doc(db, "chats", combinedId), { messages: [] });
   
 
     dispatch({ type: "CHANCE_USER", payload: user });

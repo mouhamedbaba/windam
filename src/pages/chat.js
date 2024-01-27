@@ -50,7 +50,6 @@ const Chat = () => {
     return (
         <div className="px-2 container lg:px-24 mx-auto p-5 h-screen">
             <Wrapper>
-              <button onClick={LogOut} className="text-white font-medium py-2  rounded-xl bg-slate-900  ">Logout</button>
                 <div className="h-full flex gap-2">
                     {/* aside */}
                     <div className="w-1/12">
