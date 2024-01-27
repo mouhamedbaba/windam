@@ -112,7 +112,7 @@ const Chat = () => {
                     {/* end chats */}
 
                     {/* chat */}
-                    <div className={`${ data?.user?.uid ? "block" : "hidden md:block" } md:w-8/12 w-full pb-10 h-full`}>
+                    <div className={`${ data?.user?.uid ? "block" : "hidden md:block" } md:w-8/12 w-full  h-full`}>
                         <Wrapper>
                             <ProfileBar />
                             <DiscussionContainer />
