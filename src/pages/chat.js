@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { signOut } from "firebase/auth";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -26,8 +26,13 @@ const Wrapper = ({ children }) => {
 
 const Chat = () => {
     const { currentUser } = useContext(AuthContext);
-    const { dispatch } = useContext(ChatContext);
+    const { dispatch, data } = useContext(ChatContext);
     const router = useRouter();
+    const [isSidebarCollapsed , setIsSidebarCollapsed] = useState(false)
+
+    const handleCollapseSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed)
+    }
 
 
    
@@ -89,20 +94,25 @@ const Chat = () => {
             <Wrapper>
                 <div className="h-full flex gap-2">
                     {/* aside */}
-                    <div className="w-1/12 hidden">
+                    <div className="md:w-1/12 h-full pb-10 hidden md:block">
                         <Sidebar />
                     </div>
                     {/* end aside */}
 
                     {/* chats */}
-                    <div className="md:w-3/12 w-full flex flex-col gap-3 pb-10">
-                            <SearchBar />
-                            <ChatContainer />
+                    <div className={`${ data?.user?.uid ? "hidden" : "block" } md:w-3/12 w-full md:flex flex-col gap-3 pb-10 relative`}>
+                        <div className="flex flex-col gap-2 h-full">
+                            <SearchBar handleCollapseSidebar={handleCollapseSidebar} />
+                            <ChatContainer  />
+                            </div>
+                            <div className={`${!isSidebarCollapsed ? "slide-right -left-20 md:hidden" : "slide-left md:hidden" } absolute  z-20  top-1 h-full pb-12`}>
+                    <Sidebar handleCollapseSidebar={handleCollapseSidebar} />
+                        </div>
                     </div>
                     {/* end chats */}
 
                     {/* chat */}
-                    <div className="w-8/12 h-full hidden ">
+                    <div className={`${ data?.user?.uid ? "block" : "hidden md:block" } md:w-8/12 w-full pb-10 h-full`}>
                         <Wrapper>
                             <ProfileBar />
                             <DiscussionContainer />

@@ -24,7 +24,7 @@ export const SwithTeme = () => {
     toggle
   return (
     <div className='relative flex  z-10'>
-    <div className="absolute top-2 left-2 transition duration-1000 flex gap-1 p-1 rounded-xl  ">
+    <div className="absolute bottom-[10px] z-50 left-2 transition duration-1000 flex gap-1 p-1 rounded-xl  ">
     <button onClick={toggle} className={`rounded-xl bg-slate-900 px-6 py-1 transition duration-1000 font-bold dark:bg-slate-200 text-white dark:text-slate-800`}>
       {
         theme === 'dark' ? "light" : "dark"

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
-export const Sidebar = () => {
+export const Sidebar = ({handleCollapseSidebar}) => {
   const { currentUser } = useContext(AuthContext);
   const [isProfileIfoCollapsed, setIsProfileIfoCollapsed] = useState(true);
   const router = useRouter()
@@ -23,21 +23,20 @@ export const Sidebar = () => {
   };
 
   return (
+
     <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
-        <svg
-          viewBox="0 0 24 24"
-          className="fill-red-600 h-10 w-10"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 3L13.4302 8.31181C13.6047 8.96 13.692 9.28409 13.8642 9.54905C14.0166 9.78349 14.2165 9.98336 14.451 10.1358C14.7159 10.308 15.04 10.3953 15.6882 10.5698L21 12L15.6882 13.4302C15.04 13.6047 14.7159 13.692 14.451 13.8642C14.2165 14.0166 14.0166 14.2165 13.8642 14.451C13.692 14.7159 13.6047 15.04 13.4302 15.6882L12 21L10.5698 15.6882C10.3953 15.04 10.308 14.7159 10.1358 14.451C9.98336 14.2165 9.78349 14.0166 9.54905 13.8642C9.28409 13.692 8.96 13.6047 8.31181 13.4302L3 12L8.31181 10.5698C8.96 10.3953 9.28409 10.308 9.54905 10.1358C9.78349 9.98336 9.98336 9.78349 10.1358 9.54905C10.308 9.28409 10.3953 8.96 10.5698 8.31181L12 3Z"
-            className="stroke-red-600"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+      <button className="h-10  w-10 rounded-full flex justify-center items-center "
+      onClick={handleCollapseSidebar}
+      >
+          <svg
+            viewBox="0 0 24 24"
+            className="stroke-white fill-none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+<circle id="primary" cx="12" cy="12" r="10"></circle><path id="secondary" d="M17,11H11V9.86a1,1,0,0,0-1.5-.69L6.38,11.31a.82.82,0,0,0,0,1.38L9.5,14.83a1,1,0,0,0,1.5-.69V13h6a1,1,0,0,0,0-2Z" ></path>
+          </svg>
+        </button>
         <div className=" my-auto flex rounded-full grow flex-col justify-center  items-center gap-8">
           <svg
             className="fill-slate-100 w-8 h-8 cursor-pointer hover:fill-red-500"
@@ -133,7 +132,7 @@ export const Sidebar = () => {
           isProfileIfoCollapsed
             ? "hidden transition duration-1000"
             : "block transition duration-1000"
-        } bottom-16  -right-16 z-30 bg-slate-800 h-80 w-60 absolute p-4 rounded-lg overflow-x-hidden overflow-Y-auto`}
+        } bottom-16 md:-right-16 z-30 bg-slate-800 h-80 w-60 absolute p-4 rounded-lg overflow-x-hidden overflow-Y-auto`}
       >
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-full relative">

@@ -2,14 +2,24 @@ import { ChatContext } from '@/context/chatContext';
 import React, { useContext } from 'react'
 
 export const ProfileBar = () => {
-  const { data } = useContext(ChatContext);
+  const { data, dispatch } = useContext(ChatContext);
+
+  const handleReturnToChats = () =>{
+    dispatch({ type: "CHANGE_USER", payload: "null" });
+  }
+
   return (
 
     <div className={`${data.user?.uid ? "block" : "hidden"} bg-white dark:bg-slate-800  h-24 rounded-3xl px-4`}>
                 <div className="h-full w-full flex flex-row gap-2 justify-center items-center py-4" >
                   <div className=" grow flex gap-2  ">
                     <div className=" grow">
-                      <div className="flex min-w-0 gap-x-4">
+                      <div className="flex min-w-0 gap-x-2">
+                    <button
+                    onClick={handleReturnToChats}
+                    className="ms-2 w-10 h-10 rounded-full bg-slate-300">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" ariaHidden="true" role="img" class="iconify iconify--emojione-monotone" preserveAspectRatio="xMidYMid meet"><path d="M32 2C15.432 2 2 15.432 2 32c0 16.568 13.432 30 30 30s30-13.432 30-30C62 15.432 48.568 2 32 2zm17 35.428H30.307V48L15 32l15.307-16v11.143H49v10.285z" fill="#000000"></path></svg>
+                    </button>
                       {data.user?.photoURL ? (
               <img
               className="h-10 w-10 flex-none rounded-full bg-gray-500"
@@ -40,7 +50,7 @@ export const ProfileBar = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex min-w-0 gap-x-2 justify-centers items-center ">
+                    <div className="md:flex min-w-0 gap-x-2 justify-centers items-center hidden">
                       <button className="bg-white text-slate-900 border px-5 rounded-2xl font-bold h-full">
                         Profile
                       </button>
@@ -50,7 +60,6 @@ export const ProfileBar = () => {
                     </div>
                   </div>
                   <div className=" flex gap-2 border-l h-full ms-2  justify-center items-center animate-pulse">
-                    <div className="ms-2 w-10 h-10 rounded-full bg-slate-300"></div>
                     <div className="me-2 w-10 h-10 rounded-full bg-slate-300">
                       {" "}
                     </div>

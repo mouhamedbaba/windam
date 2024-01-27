@@ -27,7 +27,7 @@ export const DiscussionContainer = () => {
   }
 
 return (
-  <div className="bg-white dark:bg-slate-800 h-full rounded-xl py-2 overflow-hidden relative">
+  <div className={`${ !data?.user?.uid  && "hidden md:block"} bg-white dark:bg-slate-800 h-full rounded-xl py-2 overflow-hidden relative`}>
     {
       data.user?.uid ? (
         
