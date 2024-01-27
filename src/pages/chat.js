@@ -61,7 +61,6 @@ const Chat = () => {
                         console.log("user authcontxt ==>", user);
             
                         dispatch({ type: "CHANGE_USER", payload: user.data() })
-                        toast.success("Chat rejoint");
                         
                       } catch (error) {
                         console.error("Erreur lors de la récupération du chat :", error);
@@ -96,7 +95,7 @@ const Chat = () => {
                     {/* end aside */}
 
                     {/* chats */}
-                    <div className="md:w-3/12 w-full flex flex-col gap-3">
+                    <div className="md:w-3/12 w-full flex flex-col gap-3 pb-10">
                             <SearchBar />
                             <ChatContainer />
                     </div>

@@ -16,9 +16,6 @@ const INITIAL_STATE = {
 const chatReducer = (state, action) =>{
     switch (action.type) {
         case "CHANGE_USER":
-            console.log("action.payload ==>", action.payload);
-            console.log("currentUser.uid ==>", currentUser.uid);
-            console.log("state.user ==>", state.user);
             return {
                 user:action.payload,
                 chatId : 
