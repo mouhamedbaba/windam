@@ -25,7 +25,7 @@ export const ChatContainer = () => {
       setIsLoading(false);
     });
 
-    return () => {
+    return () => {  
       unsub();
     };
   };

@@ -90,22 +90,20 @@ const Chat = () => {
             <Wrapper>
                 <div className="h-full flex gap-2">
                     {/* aside */}
-                    <div className="w-1/12">
+                    <div className="w-1/12 hidden">
                         <Sidebar />
                     </div>
                     {/* end aside */}
 
                     {/* chats */}
-                    <div className="w-3/12 h-full">
-                        <Wrapper>
+                    <div className="md:w-3/12 w-full flex flex-col gap-3">
                             <SearchBar />
                             <ChatContainer />
-                        </Wrapper>
                     </div>
                     {/* end chats */}
 
                     {/* chat */}
-                    <div className="w-8/12 h-full">
+                    <div className="w-8/12 h-full hidden ">
                         <Wrapper>
                             <ProfileBar />
                             <DiscussionContainer />
