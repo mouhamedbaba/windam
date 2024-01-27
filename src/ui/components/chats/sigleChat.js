@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 import { toast } from "react-toastify";
 
 
-export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
+export const SingleChat = ({user, setuserprop, setusernameprop}) => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
@@ -31,21 +31,18 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
             [combinedId + ".userInfo"]: {
               uid: user.uid,
               displayName: user.displayName,
+              // photoURL: user.photoURL,
             },
             [combinedId + ".date"]: serverTimestamp(),
+            
           }).then((res) => {
             // toast('ok')
           }).catch((err) => {
-            // toast('nope')
+            toast('nope')
+            console.log(err);
           })
   
-          await updateDoc(doc(db, "userChats", user.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
-          });
+
     dispatch({ type: "CHANCE_USER", payload: user });
 
         }
@@ -60,7 +57,7 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
 
   
   return (
-    <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer w-full" key={key}>
+    <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer w-full" >
       <div className="flex min-w-0 gap-x-4">
         <div
           className="h-12 w-12 flex-none rounded-full bg-gray-500 animate-pulse"
@@ -76,7 +73,6 @@ export const SingleChat = ({user, key, setuserprop, setusernameprop}) => {
               )
             }
           </div>
-          {user.displayName}
             {
               user.uid === currentUser.uid ? (
                 <div className="mt-1 truncate text-xs leading-5 text-gray-500">

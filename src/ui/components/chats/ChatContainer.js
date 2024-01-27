@@ -46,7 +46,7 @@ export const ChatContainer = () => {
             className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full"
           >
             {!isLoading ? (
-              0 === 0 ? (
+              Object?.values(chats)?.length === 0 ? (
                 <div className="flex justify-center items-center h-full px-3">
                   <div className="">
                     <img src="/assets/svg/nochat.jpg" />

@@ -38,12 +38,24 @@ export const SendMessageForm = () => {
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
+
+    
     await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".userInfo"]: {
+        uid: currentUser.uid,
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+      },
       [data.chatId + ".lastMessage"]: {
         text,
       },
       [data.chatId + ".date"]: serverTimestamp(),
-    });
+    }).then((res) => {
+      toast.success("Message sent")
+    }).catch((err) => {
+      toast.error("Message not sent")
+      console.log(err);
+    })
   };
 
   const handleKey = (e) => {
@@ -151,12 +163,12 @@ export const SendMessageForm = () => {
             fill=""
             stroke=""
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0" />
+            <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
 
             <g id="SVGRepo_iconCarrier">
