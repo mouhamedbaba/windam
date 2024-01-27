@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { SingleChat } from "./sigleChat";
 import { AuthContext } from "@/context/authContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { ChatContext } from "@/context/chatContext";
 import { ChatPulse } from "./chatPulse";
 import { formatTime } from "@/utils/formatTime";
+import { Message } from "../discussion/message";
 
 export const ChatContainer = () => {
   const [chats, setChats] = useState([]);
@@ -35,8 +36,18 @@ export const ChatContainer = () => {
     currentUser.uid && getChats();
   }, [currentUser.uid]);
 
-  const handleSelect = (user) => {
-    dispatch({ type: "CHANCE_USER", payload: user });
+  const handleSelect = async (user) => {
+    const combinedId =
+      currentUser.uid > user.uid
+        ? currentUser.uid + user.uid
+        : user.uid + currentUser.uid;
+    dispatch({ type: "CHANGE_USER", payload: user });
+    await updateDoc(doc(db, "users", currentUser.uid), {
+      lastuserchatwithme : user.uid
+    })
+    await updateDoc(doc(db, "userChats", currentUser.uid),{
+      [combinedId + ".read"]: true,
+    })
   };
 
   return (
@@ -48,7 +59,7 @@ export const ChatContainer = () => {
         <div className="mt-10 h-full rounded-sm">
           <ul
             role="list"
-            className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full"
+            className="divide-y divide-gray-200 dark:divide-gray-700 overflow-auto h-full "
           >
             {!isLoading ? (
               Object?.values(chats)?.length === 0 ? (
@@ -66,7 +77,7 @@ export const ChatContainer = () => {
                   ?.sort((a, b) => b[1].date - a[1].date)
                   .map((chat) => (
                     <li
-                      className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer"
+                      className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer  transition-all"
                       key={chat[0]}
                       onClick={() => handleSelect(chat[1].userInfo)}
                     >
@@ -110,11 +121,13 @@ export const ChatContainer = () => {
 </time>
 
                         </div>
-                        <div className="mt-1 text-xs leading-5 text-gray-500">
-                          <div className="inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full dark:border-gray-900">
-                            1
-                          </div>
+                        {
+                          chat[1].read === false && (
+                          <div className="mt-1 justify-center w-fit px-2 py-0.5  text-xs font-bold text-white bg-red-500 rounded-2xl dark:border-gray-900">
+                            new
                         </div>
+                          )
+                        }
                       </div>
                     </li>
                   ))

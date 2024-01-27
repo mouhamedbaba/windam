@@ -1,62 +1,71 @@
 import { db } from "@/config/firebase";
 import { AuthContext } from "@/context/authContext";
 import { ChatContext } from "@/context/chatContext";
-import { doc, getDoc, serverTimestamp, setDoc, updateDoc  } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useContext } from "react";
 import { toast } from "react-toastify";
 
-
-export const SingleChat = ({user, setuserprop, setusernameprop}) => {
+export const SingleChat = ({ user, setuserprop, setusernameprop }) => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
+  const handleSelect = async () => {
+    //check whether the group(chats in firestore) exists, if not create
+    const combinedId =
+      currentUser.uid > user.uid
+        ? currentUser.uid + user.uid
+        : user.uid + currentUser.uid;
+    try {
+      const res = await getDoc(doc(db, "chats", combinedId));
 
+      if (!res.exists()) {
+        //create a chat in chats collection
 
-    const handleSelect = async () => {
-      //check whether the group(chats in firestore) exists, if not create
-      const combinedId =
-        currentUser.uid > user.uid
-          ? currentUser.uid + user.uid
-          : user.uid + currentUser.uid;
-      try {
-        const res = await getDoc(doc(db, "chats", combinedId));
-  
-        if (!res.exists()) {
-          //create a chat in chats collection
-          
-          //create user chats
-          await updateDoc(doc(db, "userChats", currentUser.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: user.uid,
-              displayName: user.displayName,
-              photoUrl: user.photoUrl,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
+        //create user chats
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".userInfo"]: {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoUrl: user.photoUrl,
             
-          }).then((res) => {
-            toast('ok')
-          }).catch((err) => {
-            toast('nope')
-            console.log(err);
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        })
+          .then((res) => {
+            toast("ok");
           })
-          await setDoc(doc(db, "chats", combinedId), { messages: [] });
-  
+          .catch((err) => {
+            toast("nope");
+            console.log(err);
+          });
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
-    dispatch({ type: "CHANCE_USER", payload: user });
-
-        }
-      } catch (err) {
-        console.log(err);
+        
+        
       }
-  
-      setuserprop([])
-      setusernameprop('')
-    };
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        lastuserchatwithme : user.uid
+      })
+      dispatch({ type: "CHANGE_USER", payload: user });
+    } catch (err) {
+      console.log(err);
+    }
 
+    setuserprop([]);
+    setusernameprop("");
+  };
 
-  
   return (
-    <li onClick={handleSelect} className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer w-full" >
+    <li
+      onClick={handleSelect}
+      className="hover:bg-slate-200 px-2 dark:hover:bg-slate-900 flex justify-between gap-x-6 py-5 cursor-pointer w-full"
+    >
       <div className="flex min-w-0 gap-x-4">
         <div
           className="h-12 w-12 flex-none rounded-full bg-gray-500 animate-pulse"
@@ -66,25 +75,21 @@ export const SingleChat = ({user, setuserprop, setusernameprop}) => {
         <div className="min-w-0 flex-auto">
           <div className="text-sm font-semibold leading-6 text-gray-900 dark:text-slate-100">
             {user.displayName}
-            {
-              user.uid === currentUser.uid && (
-                <span className="ml-2 inline-flex items-center rounded-full bg-slate-600 px-2.5 py-0.5 text-xs font-medium text-slate-100 dark:bg-slate-700 dark:text-slate-300">You</span>
-              )
-            }
+            {user.uid === currentUser.uid && (
+              <span className="ml-2 inline-flex items-center rounded-full bg-slate-600 px-2.5 py-0.5 text-xs font-medium text-slate-100 dark:bg-slate-700 dark:text-slate-300">
+                You
+              </span>
+            )}
           </div>
-            {
-              user.uid === currentUser.uid ? (
-                <div className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  message your self
-                </div>
-              ) :(
-                <div className="mt-1 truncate text-xs leading-5 text-gray-500">
-                chat with {user.displayName}
-
-                </div>
-              )
-            }
-
+          {user.uid === currentUser.uid ? (
+            <div className="mt-1 truncate text-xs leading-5 text-gray-500">
+              message your self
+            </div>
+          ) : (
+            <div className="mt-1 truncate text-xs leading-5 text-gray-500">
+              chat with {user.displayName}
+            </div>
+          )}
         </div>
       </div>
       <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">

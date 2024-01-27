@@ -2,7 +2,7 @@ import { ChatContext } from '@/context/chatContext';
 import React, { useContext } from 'react'
 
 export const ProfileBar = () => {
-  const { data, dispatch } = useContext(ChatContext);
+  const { data } = useContext(ChatContext);
   return (
 
     <div className={`${data.user?.uid ? "block" : "hidden"} bg-white dark:bg-slate-800  h-24 rounded-3xl px-4`}>

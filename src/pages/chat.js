@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { signOut } from "firebase/auth";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { auth } from '@/config/firebase';
+import { auth, db } from '@/config/firebase';
 
 import { ChatContainer } from "@/ui/components/chats/ChatContainer";
 import { DiscussionContainer } from "@/ui/components/discussion/discussionContainer";
@@ -12,8 +12,11 @@ import { SearchBar } from "@/ui/components/search/searchBar";
 import { Seo } from "@/ui/components/seo/seo";
 import { Sidebar } from "@/ui/components/sidebar/sidebar";
 import { AuthContext } from '@/context/authContext';
+import { ChatContext } from '@/context/chatContext';
+import { doc, getDoc, getDocs } from 'firebase/firestore';
 
 const Wrapper = ({ children }) => {
+
     return (
         <div className="flex flex-col h-full gap-2">
             {children}
@@ -23,24 +26,59 @@ const Wrapper = ({ children }) => {
 
 const Chat = () => {
     const { currentUser } = useContext(AuthContext);
+    const { dispatch } = useContext(ChatContext);
     const router = useRouter();
+
+
+   
+  
+
 
     // Utiliser useEffect pour vérifier si currentUser est présent au chargement du composant
     useEffect(() => {
+        
         if (!currentUser) {
             // Rediriger vers la page d'authentification
             router.push('/auth/login');
         }
+        console.log("currentUser.uid ==>", currentUser);
+
+        const fetchChatData = async () => {
+            if (currentUser?.uid) {
+                try {
+        
+                    console.log("currentUser.uid ==>", currentUser);
+                    
+                    const user = await getDoc(doc(db, "users", currentUser.uid))
+        
+                    const lastuserchatwithme_id = user.data().lastuserchatwithme
+        
+                    if (lastuserchatwithme_id) {
+                      console.log("state.chatId ==>", lastuserchatwithme_id);
+                      try {
+                        const user = await getDoc(doc(db, "users", lastuserchatwithme_id));
+                        console.log("user data authcontxt ==>", user.data());
+                        console.log("user authcontxt ==>", user);
+            
+                        dispatch({ type: "CHANGE_USER", payload: user.data() })
+                        toast.success("Chat rejoint");
+                        
+                      } catch (error) {
+                        console.error("Erreur lors de la récupération du chat :", error);
+                      }
+                    }
+                } catch (error) {
+                    console.log("Error getting document:", error);
+                }
+            }
+          };
+
+
+        fetchChatData();
+
     }, [currentUser]);
 
-    const LogOut = async () => {
-        await signOut(auth).then(() => {
-            toast.success('Good bay, see you soon ! ');
-            router.push('/auth/login');
-        }).catch((error) => {
-            // Une erreur s'est produite.
-        });
-    };
+
 
     if (!currentUser) {
         // Si l'utilisateur n'est pas connecté, la redirection se fait dans useEffect

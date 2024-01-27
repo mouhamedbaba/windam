@@ -20,7 +20,7 @@ export const Message = ({ message }) => {
     <div
     ref={ref}
      className={` ${message.senderId === currentUser.uid ? "ownmessagebox" : "elsemessagebox"} `}>
-    <div className="flex flex-col justify-end items-end pb-5">
+    <div className="flex flex-col justify-end items-end pb-2">
       {
         message.senderId !== currentUser.uid && (
           

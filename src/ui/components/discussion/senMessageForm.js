@@ -27,7 +27,7 @@ export const SendMessageForm = () => {
         senderId: currentUser.uid,
         date: Timestamp.now(),
         photoURL: currentUser.photoURL,
-        read : true
+        read : false,
       }),
     })
       .then(() => {
@@ -52,6 +52,7 @@ export const SendMessageForm = () => {
       [data.chatId + ".lastMessage"]: {
         text,
       },
+      [data.chatId + ".read"]: false,
       [data.chatId + ".date"]: serverTimestamp(),
     }).then((res) => {
       // toast.success("Message sent")
