@@ -94,14 +94,14 @@ const Chat = () => {
             <Wrapper>
                 <div className="h-full flex gap-2">
                     {/* aside */}
-                    <div className="md:w-1/12 h-full pb-10 hidden md:block">
+                    <div className="md:w-1/12 h-full  hidden md:block">
                         <Sidebar />
                     </div>
                     {/* end aside */}
 
                     {/* chats */}
-                    <div className={`${ data?.user?.uid ? "hidden" : "block" } md:w-3/12 w-full md:flex flex-col gap-3 pb-10 relative`}>
-                        <div className="flex flex-col gap-2 h-full">
+                    <div className={`${ data?.user?.uid ? "hidden" : "block" } md:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}>
+                        <div className="flex flex-col gap-2 h-full w-full">
                             <SearchBar handleCollapseSidebar={handleCollapseSidebar} />
                             <ChatContainer  />
                             </div>

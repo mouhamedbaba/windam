@@ -51,7 +51,7 @@ export const ChatContainer = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 h-full rounded-3xl overflow-hidden pb-10 relative">
+    <div className="bg-white dark:bg-slate-800 h-full rounded-3xl overflow-hidden  relative">
       <div className="py-3 h-full">
         <h1 className="text-base font-semibold text-gray-700 dark:text-gray-200 sm:truncate ms-1 sm:tracking-tight fixed px-3">
           Chats
@@ -109,12 +109,16 @@ export const ChatContainer = () => {
                           </div>
                           <div className="mt-1 truncate text-xs leading-5 text-gray-500">
                             {chat[1].lastMessage?.text
-                              ? chat[1].lastMessage?.text
+                              ? (<span>
+                                {chat[1].userInfo?.uid === currentUser.uid ? (
+                                  `You: ${chat[1].lastMessage?.text}`
+                                ): chat[1].lastMessage?.text }
+                              </span>  ) 
                               : "Commencer une discussion"}
                           </div>
                         </div>
                       </div>
-                      <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                      <div className=" shrink-0 flex flex-col items-end">
                         <div className="mt-1 text-xs leading-5 text-gray-500">
                         <time dateTime={chat[1].date && chat[1].date.toDate()}>
   {chat[1].date && formatTime(chat[1].date)}
