@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 
 
 export default function Document() {
- const [theme, setItem ] = useState()
- useEffect(() =>{
+const [theme, setItem ] = useState()
+useEffect(() =>{
     const theme = localStorage.getItem('theme')
     console.log(theme);
- },[])
+},[])
   return (
     <Html lang="en" id="theme" className='dark'>
       <Head />

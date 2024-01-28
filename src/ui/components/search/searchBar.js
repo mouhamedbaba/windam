@@ -39,7 +39,7 @@ export const SearchBar = ({ handleCollapseSidebar }) => {
     <div className="bg-white dark:bg-slate-800 h-24 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex gap-2 items-center">
         <button
-          className="h-10  w-10 rounded-full flex justify-center items-center "
+          className="h-10  w-10 rounded-full flex justify-center items-center  md:hidden"
           onClick={handleCollapseSidebar}
         >
           <svg

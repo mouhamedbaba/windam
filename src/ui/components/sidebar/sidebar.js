@@ -4,8 +4,10 @@ import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { SwithTeme } from "../SwithTeme";
+import { AllUsers } from "../chats/AllUsers";
 
-export const Sidebar = ({ handleCollapseSidebar }) => {
+export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
   const { currentUser } = useContext(AuthContext);
   const [isProfileIfoCollapsed, setIsProfileIfoCollapsed] = useState(true);
   const router = useRouter();
@@ -25,10 +27,10 @@ export const Sidebar = ({ handleCollapseSidebar }) => {
   };
 
   return (
-    <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl relative">
+    <div className="h-full w-full bg-slate-800 dark:bg-white-200 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
         <button
-          className="h-10  w-10 rounded-full flex justify-center items-center "
+          className="h-10  w-10 rounded-full flex justify-center items-center md:hidden"
           onClick={handleCollapseSidebar}
         >
           <svg
@@ -43,11 +45,15 @@ export const Sidebar = ({ handleCollapseSidebar }) => {
             ></path>
           </svg>
         </button>
-        <div className=" my-auto flex rounded-full grow flex-col justify-center  items-center gap-8">
+        <div className=" my-auto flex rounded-full grow flex-col justify-center  items-center gap-8"
+        
+        >
+
           <svg
             className="fill-slate-100 w-8 h-8 cursor-pointer hover:fill-red-500"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            onClick={handleCollapseUsers}
           >
             <path d="M15.5 7.5C15.5 9.433 13.933 11 12 11C10.067 11 8.5 9.433 8.5 7.5C8.5 5.567 10.067 4 12 4C13.933 4 15.5 5.567 15.5 7.5Z" />
             <path d="M18 16.5C18 18.433 15.3137 20 12 20C8.68629 20 6 18.433 6 16.5C6 14.567 8.68629 13 12 13C15.3137 13 18 14.567 18 16.5Z" />
@@ -64,23 +70,7 @@ export const Sidebar = ({ handleCollapseSidebar }) => {
           >
             <path d="M232,96.00049a16.01833,16.01833,0,0,0-16-16H184v-32a16.01833,16.01833,0,0,0-16-16H40a16.01833,16.01833,0,0,0-16,16v128a7.99978,7.99978,0,0,0,13.0293,6.22119L72,153.95032l.001,30.05017a16.01833,16.01833,0,0,0,16,16h93.58789l37.38281,30.22119a7.99979,7.99979,0,0,0,13.0293-6.22119ZM189.44727,185.7793a7.99922,7.99922,0,0,0-5.0293-1.77881H88.001l-.001-32h80a16.01833,16.01833,0,0,0,16-16v-40h32l.001,111.24512Z" />
           </svg>
-          <svg
-            className="fill-slate-100 w-8 h-8 cursor-pointer hover:fill-red-500"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z"
-              stroke="#1C274C"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19"
-              stroke="#1C274C"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <SwithTeme />
           <div className=" h-8 w-8">
             <svg
               className="fill-transparent   w-8 h-8 cursor-pointer hover:stroke-red-500"

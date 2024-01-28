@@ -25,10 +25,8 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/chat");
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
+      setIsLoading(false);
+      toast.error("Invalid Credentials");
     }
   };
 
@@ -73,7 +71,20 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
+    <div className="relative">
+    {
+      isLoading && (
+        <div className="absolute h-full w-full flex justify-center items-center ">
+        <svg  className="fill-slate-800 dark:fill-slate-50 h-16 w-16 animate-spin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <g>
+            <path fill="none" d="M0 0h24v24H0z"/>
+            <path d="M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z"/>
+        </g>
+    </svg>
+        </div>
+      )
+    }
+    <div className="max-w-md mx-auto container p-6 mt-16 md:bg-white md:dark:bg-slate-800 dark:text-white rounded-md md:shadow-md">
       <h1 className="text-2xl font-bold mb-4 text-center">Se Connecter</h1>
 
       <form onSubmit={handleSubmit}>
@@ -87,7 +98,7 @@ const Login = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            className="bg-transparent  w-full border border-slate-300 dark:border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 dark:focus:border-blue-900"
           />
         </div>
 
@@ -104,15 +115,16 @@ const Login = () => {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            className="bg-transparent  w-full border border-slate-300 dark:border-slate-600 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 dark:focus:border-blue-900"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 w-full text-white py-2 px-4 rounded-md font-semibold"
+          className="bg-red-600 hover:bg-red-700  w-full text-white py-2 px-4 rounded-md font-semibold h-10 "
         >
-          {isLoading ? "chargement..." : "Connexion"}
+        Se connecter
+        
         </button>
       </form>
       <hr className="my-6" />
@@ -120,7 +132,7 @@ const Login = () => {
       <div className="my-4 flex justify-between gap-4 w-full">
         <button
           type="button"
-          className="mt-2 w-full bg-red-500 text-white py-2 px-4 rounded-md"
+          className="mt-2 w-full bg-red-600 font-medium text-white py-2 px-4 rounded-md"
           onClick={handleGoogleRegister}
         >
           {/* <FontAwesomeIcon icon={faGoogle} className="mr-2" /> */}
@@ -129,7 +141,7 @@ const Login = () => {
 
         <button
           type="button"
-          className="mt-2 w-full bg-gray-800 text-white py-2 px-4 rounded-md"
+          className="mt-2 w-full bg-black md:bg-gray-900 font-medium text-white py-2 px-4 rounded-md"
         >
           {/* <FontAwesomeIcon icon={faGithub} className="mr-2" /> */}
           GitHub
@@ -141,6 +153,7 @@ const Login = () => {
       >
         S'incrire
       </Link>
+    </div>
     </div>
   );
 };

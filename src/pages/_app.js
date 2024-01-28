@@ -11,7 +11,6 @@ export default function App({ Component, pageProps }) {
   return (
     <AuthContextProvider>
       <ChatContextProvider>
-        <SwithTeme />
         <ToastContainer />
         <Component {...pageProps} />
       </ChatContextProvider>

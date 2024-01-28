@@ -1,129 +1,142 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { signOut } from "firebase/auth";
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
-import { auth, db } from '@/config/firebase';
+  import React, { useContext, useEffect, useState } from "react";
+  import { signOut } from "firebase/auth";
+  import { toast } from "react-toastify";
+  import { useRouter } from "next/router";
+  import { auth, db } from "@/config/firebase";
 
-import { ChatContainer } from "@/ui/components/chats/ChatContainer";
-import { DiscussionContainer } from "@/ui/components/discussion/discussionContainer";
-import { ProfileBar } from "@/ui/components/discussion/profileBar";
-import { SendMessageForm } from "@/ui/components/discussion/senMessageForm";
-import { SearchBar } from "@/ui/components/search/searchBar";
-import { Seo } from "@/ui/components/seo/seo";
-import { Sidebar } from "@/ui/components/sidebar/sidebar";
-import { AuthContext } from '@/context/authContext';
-import { ChatContext } from '@/context/chatContext';
-import { doc, getDoc, getDocs } from 'firebase/firestore';
+  import { ChatContainer } from "@/ui/components/chats/ChatContainer";
+  import { DiscussionContainer } from "@/ui/components/discussion/discussionContainer";
+  import { ProfileBar } from "@/ui/components/discussion/profileBar";
+  import { SendMessageForm } from "@/ui/components/discussion/senMessageForm";
+  import { SearchBar } from "@/ui/components/search/searchBar";
+  import { Seo } from "@/ui/components/seo/seo";
+  import { Sidebar } from "@/ui/components/sidebar/sidebar";
+  import { AuthContext } from "@/context/authContext";
+  import { ChatContext } from "@/context/chatContext";
+  import { doc, getDoc } from "firebase/firestore";
+  import { AllUsers } from "@/ui/components/chats/AllUsers";
 
-const Wrapper = ({ children }) => {
+  const Wrapper = ({ children }) => {
+    return <div className="flex flex-col h-full gap-2">{children}</div>;
+  };
 
-    return (
-        <div className="flex flex-col h-full gap-2">
-            {children}
-        </div>
-    );
-};
-
-const Chat = () => {
+  const Chat = () => {
     const { currentUser } = useContext(AuthContext);
     const { dispatch, data } = useContext(ChatContext);
     const router = useRouter();
-    const [isSidebarCollapsed , setIsSidebarCollapsed] = useState(false)
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+    const [isUsersCollapsed, setIsUsersCollapsed] = useState(false);
 
     const handleCollapseSidebar = () => {
-        setIsSidebarCollapsed(!isSidebarCollapsed)
-    }
+      setIsSidebarCollapsed(!isSidebarCollapsed);
+    };
+
+// Dans le composant Chat
+const handleCollapseUsers = () => {
+  setIsUsersCollapsed(!isUsersCollapsed);
+  console.log("isUsersCollapsed ==>", isUsersCollapsed);
+};
 
 
-   
-  
-
-
-    // Utiliser useEffect pour vérifier si currentUser est présent au chargement du composant
     useEffect(() => {
-        
-        if (!currentUser) {
-            // Rediriger vers la page d'authentification
-            router.push('/auth/login');
-        }
-        console.log("currentUser.uid ==>", currentUser);
+      if (!currentUser) {
+        router.push("/auth/login");
+      }
+      console.log("currentUser.uid ==>", currentUser);
 
-        const fetchChatData = async () => {
-            if (currentUser?.uid) {
-                try {
-        
-                    console.log("currentUser.uid ==>", currentUser);
-                    
-                    const user = await getDoc(doc(db, "users", currentUser.uid))
-        
-                    const lastuserchatwithme_id = user.data().lastuserchatwithme
-        
-                    if (lastuserchatwithme_id) {
-                      console.log("state.chatId ==>", lastuserchatwithme_id);
-                      try {
-                        const user = await getDoc(doc(db, "users", lastuserchatwithme_id));
-                        console.log("user data authcontxt ==>", user.data());
-                        console.log("user authcontxt ==>", user);
-            
-                        dispatch({ type: "CHANGE_USER", payload: user.data() })
-                        // 
-                      } catch (error) {
-                        console.error("Erreur lors de la récupération du chat :", error);
-                      }
-                    }
-                } catch (error) {
-                    console.log("Error getting document:", error);
-                }
+      const fetchChatData = async () => {
+        if (currentUser?.uid) {
+          try {
+            console.log("currentUser.uid ==>", currentUser);
+
+            const user = await getDoc(doc(db, "users", currentUser.uid));
+
+            const lastuserchatwithme_id = user.data().lastuserchatwithme;
+
+            if (lastuserchatwithme_id) {
+              console.log("state.chatId ==>", lastuserchatwithme_id);
+              try {
+                const user = await getDoc(
+                  doc(db, "users", lastuserchatwithme_id)
+                );
+                console.log("user data authcontxt ==>", user.data());
+                console.log("user authcontxt ==>", user);
+
+                // dispatch({ type: "CHANGE_USER", payload: user.data() });
+              } catch (error) {
+                console.error("Erreur lors de la récupération du chat :", error);
+              }
             }
-          };
+          } catch (error) {
+            console.log("Error getting document:", error);
+          }
+        }
+      };
 
-
-        fetchChatData();
-
+      fetchChatData();
     }, [currentUser]);
 
-
-
     if (!currentUser) {
-        // Si l'utilisateur n'est pas connecté, la redirection se fait dans useEffect
-        return null;
+      return null;
     }
 
     return (
-        <div className="px-2 container lg:px-24 mx-auto p-5 h-screen">
-            <Wrapper>
-                <div className="h-full flex gap-2">
-                    {/* aside */}
-                    <div className="md:w-1/12 h-full  hidden md:block">
-                        <Sidebar />
-                    </div>
-                    {/* end aside */}
+      <div className="px-2 container lg:px-24 mx-auto p-5 h-screen">
+        <Wrapper>
+          <div className="h-full flex gap-2">
+            {/* aside */}
+            <div className="md:w-1/12 h-full  hidden md:block">
+              <Sidebar 
+              handleCollapseUsers={handleCollapseUsers}
+              
+              />
+            </div>
+            {/* end aside */}
 
-                    {/* chats */}
-                    <div className={`${ data?.user?.uid ? "hidden" : "block" } md:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}>
-                        <div className="flex flex-col gap-2 h-full w-full">
-                            <SearchBar handleCollapseSidebar={handleCollapseSidebar} />
-                            <ChatContainer  />
-                            </div>
-                            <div className={`${!isSidebarCollapsed ? "slide-right -left-20 md:hidden" : "slide-left md:hidden" } absolute  z-20  top-1 h-full pb-12`}>
-                    <Sidebar handleCollapseSidebar={handleCollapseSidebar} />
-                        </div>
-                    </div>
-                    {/* end chats */}
+            {/* chats */}
+            <div
+              className={`${
+                data?.user?.uid ? "hidden" : "block"
+              } md:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}
+            >
+            <AllUsers isUsersCollapses={isUsersCollapsed} handleCollapseUsers={handleCollapseUsers} />
+              <div className="flex flex-col gap-2 h-full w-full">
+                <SearchBar handleCollapseSidebar={handleCollapseSidebar}  />
+                <ChatContainer />
+              </div>
+              <div
+                className={`${
+                  !isSidebarCollapsed
+                    ? "slide-right -left-20 md:hidden"
+                    : "slide-left md:hidden"
+                } absolute  z-20  top-1 h-full pb-12`}
+              >
+              <Sidebar
+                handleCollapseSidebar={handleCollapseSidebar}
+                handleCollapseUsers={handleCollapseUsers}
+              />
+              
+              </div>
+            </div>
+            {/* end chats */}
 
-                    {/* chat */}
-                    <div className={`${ data?.user?.uid ? "block" : "hidden md:block" } md:w-8/12 w-full  h-full`}>
-                        <Wrapper>
-                            <ProfileBar />
-                            <DiscussionContainer />
-                            <SendMessageForm />
-                        </Wrapper>
-                    </div>
-                    {/* chat */}
-                </div>
-            </Wrapper>
-        </div>
+            {/* chat */}
+            <div
+              className={`${
+                data?.user?.uid ? "block" : "hidden md:block"
+              } md:w-8/12 w-full  h-full`}
+            >
+              <Wrapper>
+                <ProfileBar />
+                <DiscussionContainer />
+                <SendMessageForm />
+              </Wrapper>
+            </div>
+            {/* chat */}
+          </div>
+        </Wrapper>
+      </div>
     );
-};
+  };
 
-export default Chat;
+  export default Chat;
