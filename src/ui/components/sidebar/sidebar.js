@@ -53,7 +53,7 @@ export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
             className="fill-slate-100 w-8 h-8 cursor-pointer hover:fill-red-500"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            onClick={handleCollapseUsers}
+            onClick={() => {handleCollapseUsers(), handleCollapseSidebar()}}
           >
             <path d="M15.5 7.5C15.5 9.433 13.933 11 12 11C10.067 11 8.5 9.433 8.5 7.5C8.5 5.567 10.067 4 12 4C13.933 4 15.5 5.567 15.5 7.5Z" />
             <path d="M18 16.5C18 18.433 15.3137 20 12 20C8.68629 20 6 18.433 6 16.5C6 14.567 8.68629 13 12 13C15.3137 13 18 14.567 18 16.5Z" />

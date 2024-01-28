@@ -149,7 +149,7 @@ export const ChatContainer = () => {
           </ul>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-8 rounded-b-3xl bg-gradient-to-b from-transparent to-white dark:to-slate-900"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-8 rounded-b-3xl bg-gradient-to-b from-transparent to-white dark:hidden"></div>
     </div>
   );
 };

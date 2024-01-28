@@ -99,7 +99,7 @@ const handleCollapseUsers = () => {
                 data?.user?.uid ? "hidden" : "block"
               } md:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}
             >
-            <AllUsers isUsersCollapses={isUsersCollapsed} handleCollapseUsers={handleCollapseUsers} />
+            <AllUsers isUsersCollapses={isUsersCollapsed} handleCollapseUsers={handleCollapseUsers} handleCollapseSidebar={handleCollapseSidebar}/>
               <div className="flex flex-col gap-2 h-full w-full">
                 <SearchBar handleCollapseSidebar={handleCollapseSidebar}  />
                 <ChatContainer />
