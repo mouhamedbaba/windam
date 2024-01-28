@@ -19,6 +19,7 @@ export const ChatContainer = () => {
   
 
   const getChats = () => {
+    
     const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
       setChats(doc.data());
       console.log("chats", doc.data());

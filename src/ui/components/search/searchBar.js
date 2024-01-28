@@ -11,14 +11,14 @@ import {
 import { db } from "@/config/firebase";
 import { AuthContext } from "@/context/authContext";
 
-export const SearchBar = ({handleCollapseSidebar}) => {
+export const SearchBar = ({ handleCollapseSidebar }) => {
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
   const citiesRef = collection(db, "users");
   const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
-    const q = query(citiesRef, where("displayName", "==", username));
+    const q = query(citiesRef, where("displayName", "array-contains", username));
 
     const querySnapshot = await getDocs(q);
     const foundUsers = [];
@@ -38,20 +38,44 @@ export const SearchBar = ({handleCollapseSidebar}) => {
   return (
     <div className="bg-white dark:bg-slate-800 h-24 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex gap-2 items-center">
-      <button className="h-10  w-10 rounded-full flex justify-center items-center "
-      onClick={handleCollapseSidebar}
-      >
+        <button
+          className="h-10  w-10 rounded-full flex justify-center items-center "
+          onClick={handleCollapseSidebar}
+        >
           <svg
             viewBox="0 0 24 24"
-            className="stroke-white fill-none"
+            className="stroke-slate-800 fill-none"
             xmlns="http://www.w3.org/2000/svg"
           >
-<path fillRule="evenodd" clipRule="evenodd" d="M3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.714 22 12C22 7.28595 22 4.92893 20.5355 3.46447C19.0711 2 16.714 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447ZM12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13ZM9 12C9 12.5523 8.55228 13 8 13C7.44772 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11C8.55228 11 9 11.4477 9 12ZM16 13C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11C15.4477 11 15 11.4477 15 12C15 12.5523 15.4477 13 16 13Z" fill="#1C274C"/>
+                        <path
+              d="M19 3.32001H16C14.8954 3.32001 14 4.21544 14 5.32001V8.32001C14 9.42458 14.8954 10.32 16 10.32H19C20.1046 10.32 21 9.42458 21 8.32001V5.32001C21 4.21544 20.1046 3.32001 19 3.32001Z"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 3.32001H5C3.89543 3.32001 3 4.21544 3 5.32001V8.32001C3 9.42458 3.89543 10.32 5 10.32H8C9.10457 10.32 10 9.42458 10 8.32001V5.32001C10 4.21544 9.10457 3.32001 8 3.32001Z"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M19 14.32H16C14.8954 14.32 14 15.2154 14 16.32V19.32C14 20.4246 14.8954 21.32 16 21.32H19C20.1046 21.32 21 20.4246 21 19.32V16.32C21 15.2154 20.1046 14.32 19 14.32Z"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 14.32H5C3.89543 14.32 3 15.2154 3 16.32V19.32C3 20.4246 3.89543 21.32 5 21.32H8C9.10457 21.32 10 20.4246 10 19.32V16.32C10 15.2154 9.10457 14.32 8 14.32Z"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
         <div className="div grow">
           <input
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {setUsername(e.target.value); handleSearch();}}
             type="text"
             value={username}
             onKeyDown={handleKey}

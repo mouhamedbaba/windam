@@ -38,11 +38,10 @@ export const SingleChat = ({ user, setuserprop, setusernameprop }) => {
           [combinedId + ".date"]: serverTimestamp(),
         })
           .then((res) => {
-            toast("ok");
+            // 
           })
           .catch((err) => {
-            toast("nope");
-            console.log(err);
+            // 
           });
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 

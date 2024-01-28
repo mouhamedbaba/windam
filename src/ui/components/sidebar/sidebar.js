@@ -5,36 +5,42 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
-export const Sidebar = ({handleCollapseSidebar}) => {
+export const Sidebar = ({ handleCollapseSidebar }) => {
   const { currentUser } = useContext(AuthContext);
   const [isProfileIfoCollapsed, setIsProfileIfoCollapsed] = useState(true);
-  const router = useRouter()
+  const router = useRouter();
   const LogOut = async () => {
-    await signOut(auth).then(() => {
-        toast.success('Good bay, see you soon ! ');
-        router.push('/auth/login');
-    }).catch((error) => {
-        toast.warning("une errreur c'est produite ")
-    });
-};
+    await signOut(auth)
+      .then(() => {
+        toast.success("Good bay, see you soon ! ");
+        router.push("/auth/login");
+      })
+      .catch((error) => {
+        toast.warning("une errreur c'est produite ");
+      });
+  };
 
   const handleCollapse = () => {
     setIsProfileIfoCollapsed(!isProfileIfoCollapsed);
   };
 
   return (
-
     <div className="h-full w-full bg-slate-900 dark:bg-white-200 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
-      <button className="h-10  w-10 rounded-full flex justify-center items-center "
-      onClick={handleCollapseSidebar}
-      >
+        <button
+          className="h-10  w-10 rounded-full flex justify-center items-center "
+          onClick={handleCollapseSidebar}
+        >
           <svg
             viewBox="0 0 24 24"
             className="stroke-white fill-none"
             xmlns="http://www.w3.org/2000/svg"
           >
-<circle id="primary" cx="12" cy="12" r="10"></circle><path id="secondary" d="M17,11H11V9.86a1,1,0,0,0-1.5-.69L6.38,11.31a.82.82,0,0,0,0,1.38L9.5,14.83a1,1,0,0,0,1.5-.69V13h6a1,1,0,0,0,0-2Z" ></path>
+            <circle id="primary" cx="12" cy="12" r="10"></circle>
+            <path
+              id="secondary"
+              d="M17,11H11V9.86a1,1,0,0,0-1.5-.69L6.38,11.31a.82.82,0,0,0,0,1.38L9.5,14.83a1,1,0,0,0,1.5-.69V13h6a1,1,0,0,0,0-2Z"
+            ></path>
           </svg>
         </button>
         <div className=" my-auto flex rounded-full grow flex-col justify-center  items-center gap-8">
@@ -163,9 +169,13 @@ export const Sidebar = ({handleCollapseSidebar}) => {
             {currentUser?.displayName}
           </p>
           <p className=" text-slate-100 truncate mt-5">{currentUser?.email}</p>
-          <div className ="flex flex-col  mt-10 h-full">
-          <button onClick={LogOut} className="text-white font-medium py-2  rounded-xl bg-slate-900 mt-10 hover:bg-slate-500 transition  ">Logout</button>
-
+          <div className="flex flex-col  mt-10 h-full">
+            <button
+              onClick={LogOut}
+              className="text-white font-medium py-2  rounded-xl bg-slate-900 mt-10 hover:bg-slate-500 transition  "
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
