@@ -32,7 +32,7 @@ export const SingleChat = ({ user, setuserprop, setusernameprop }) => {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
             displayName: user.displayName,
-            photoUrl: user.photoUrl,
+            // photoUrl: user.photoUrl,
             
           },
           [combinedId + ".date"]: serverTimestamp(),

@@ -44,7 +44,7 @@ export const SearchBar = ({ handleCollapseSidebar }) => {
         >
           <svg
             viewBox="0 0 24 24"
-            className="stroke-slate-800 fill-none"
+            className="stroke-slate- fill-none"
             xmlns="http://www.w3.org/2000/svg"
           >
                         <path
@@ -75,7 +75,7 @@ export const SearchBar = ({ handleCollapseSidebar }) => {
         </button>
         <div className="div grow">
           <input
-            onChange={(e) => {setUsername(e.target.value); handleSearch();}}
+            onChange={(e) => setUsername(e.target.value)}
             type="text"
             value={username}
             onKeyDown={handleKey}
