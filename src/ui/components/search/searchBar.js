@@ -18,7 +18,7 @@ export const SearchBar = ({ handleCollapseSidebar }) => {
   const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
-    const q = query(citiesRef, where("displayName", "array-contains", username));
+    const q = query(citiesRef, where("displayName", "==", username));
 
     const querySnapshot = await getDocs(q);
     const foundUsers = [];
