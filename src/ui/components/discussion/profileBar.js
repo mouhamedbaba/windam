@@ -20,7 +20,7 @@ export const ProfileBar = () => {
             <div className="flex min-w-0 gap-x-2">
               <button
                 onClick={handleReturnToChats}
-                className="ms-2 w-8 h-8 rounded-full "
+                className="ms-2 w-8 h-8 rounded-full flex justify-center items-center"
               >
                 <svg
                   viewBox="0 0 64 64"
