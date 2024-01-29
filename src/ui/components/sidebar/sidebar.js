@@ -27,7 +27,7 @@ export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
   };
 
   return (
-    <div className="h-full w-full bg-slate-800 dark:bg-white-200 rounded-3xl relative">
+    <div className="h-full w-full bg-slate-900 md:bg-slate-950 rounded-3xl relative">
       <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
         <button
           className="h-10  w-10 rounded-full flex justify-center items-center md:hidden"

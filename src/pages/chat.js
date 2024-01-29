@@ -81,12 +81,13 @@ const handleCollapseUsers = () => {
     }
 
     return (
-      <div className="px-2 container lg:px-24 mx-auto p-5 h-screen">
+      <div className="py-4 mx-4 h-screen">
         <Wrapper>
           <div className="h-full flex gap-2">
             {/* aside */}
             <div className="md:w-1/12 h-full  hidden md:block">
               <Sidebar 
+              handleCollapseSidebar={handleCollapseSidebar}
               handleCollapseUsers={handleCollapseUsers}
               
               />
@@ -97,7 +98,7 @@ const handleCollapseUsers = () => {
             <div
               className={`${
                 data?.user?.uid ? "hidden" : "block"
-              } md:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}
+              } md:w-4/12 lg:w-3/12 w-full md:flex flex-col gap-3 h-full relative`}
             >
             <AllUsers isUsersCollapses={isUsersCollapsed} handleCollapseUsers={handleCollapseUsers} handleCollapseSidebar={handleCollapseSidebar}/>
               <div className="flex flex-col gap-2 h-full w-full">
@@ -123,8 +124,8 @@ const handleCollapseUsers = () => {
             {/* chat */}
             <div
               className={`${
-                data?.user?.uid ? "block" : "hidden md:block"
-              } md:w-8/12 w-full  h-full`}
+                data?.user?.uid ? "block" : "hidden md:block"   
+              } md:w-7/12 lg:w-8/12  w-full  h-full`}
             >
               <Wrapper>
                 <ProfileBar />

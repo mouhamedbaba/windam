@@ -8,58 +8,98 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "@/config/firebase";
+import { db, storage } from "@/config/firebase";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 export const SendMessageForm = () => {
   const [text, setText] = useState("");
-
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+  const [file, setFile] = useState(null);
+  const [downloadurl, setDownloadurl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleSend = async () => {
     setText("");
-    await updateDoc(doc(db, "chats", data.chatId), {
-      messages: arrayUnion({
-        id: uuid(),
-        text,
-        senderId: currentUser.uid,
-        date: Timestamp.now(),
-        photoURL: currentUser.photoURL,
-        read : false,
-      }),
-    })
-      .then(() => {
-        setText("");
+    if (text === "" && file === null) {
+      return;
+    }
+
+    // Fonction pour gérer l'envoi du message
+    const handleSendMessage = async (downloadURL = null) => {
+      console.log(downloadURL);
+
+      // Le reste de votre code ici, en utilisant downloadURL comme nécessaire
+      // ...
+      await updateDoc(doc(db, "chats", data.chatId), {
+        messages: arrayUnion({
+          id: uuid(),
+          text,
+          senderId: currentUser.uid,
+          date: Timestamp.now(),
+          photoURL: currentUser.photoURL,
+          read: false,
+          file: downloadURL ? downloadURL : null,
+        }),
       })
-      .catch((err) => {});
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [data.chatId + ".lastMessage"]: {
-        text,
-      },
-      [data.chatId + ".date"]: serverTimestamp(),
+        .then(() => {
+          setText("");
+        })
+        .catch((err) => {});
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [data.chatId + ".lastMessage"]: {
+          text,
+          hasFile: downloadURL ? true : false,
+        },
+        [data.chatId + ".date"]: serverTimestamp(),
+      });
 
-    });
+      await updateDoc(doc(db, "userChats", data.user.uid), {
+        [data.chatId + ".userInfo"]: {
+          uid: currentUser.uid,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+        },
+        [data.chatId + ".lastMessage"]: {
+          text,
+          hasFile: downloadURL ? true : false,
+        },
+        [data.chatId + ".read"]: false,
+        [data.chatId + ".date"]: serverTimestamp(),
+      }).then((res) => {
+        // toast.success("Message sent")
+      }).catch((err) => {
+        toast.error("Message not sent")
+        // console.log(err);
+      });
+    };
 
-    
-    await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data.chatId + ".userInfo"]: {
-        uid: currentUser.uid,
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-      },
-      [data.chatId + ".lastMessage"]: {
-        text,
-      },
-      [data.chatId + ".read"]: false,
-      [data.chatId + ".date"]: serverTimestamp(),
-    }).then((res) => {
-      // toast.success("Message sent")
-    }).catch((err) => {
-      toast.error("Message not sent")
-      // console.log(err);
-    })
+    if (file !== null) {
+      setIsUploading(true);
+      const storageRef = ref(storage, uuid());
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on("state_changed", (snapshot) => {
+        // Gérer les états du téléchargement si nécessaire
+      }, (error) => {
+        // Gérer les erreurs du téléchargement si nécessaire
+      }, () => {
+        // Téléchargement terminé, obtenir l'URL de l'image
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setDownloadurl(downloadURL);
+          setFile(null);
+
+          // Maintenant, vous pouvez utiliser downloadURL comme nécessaire, par exemple, le stocker dans votre état.
+          handleSendMessage(downloadURL);
+        });
+      });
+    } else {
+      // Si aucun fichier, appelez directement la fonction handleSendMessage
+      handleSendMessage();
+    }
   };
 
   const handleKey = (e) => {
@@ -67,20 +107,35 @@ export const SendMessageForm = () => {
   };
 
   return (
-    <div className={`${data.user?.uid ? "flex" : "hidden"} gap-1 h-16 `}>
+    <div className={`${data.user?.uid ? "flex" : "hidden"} gap-1 h-16 relative`}>
+    {
+      file && (
+        <div
+        className="absolute h-fit max-h-96 w-fit max-w-full bg-slate-900 dark:bg-slate-900 rounded-xl bottom-16 overflow-hidden"
+        >
+        <img 
+        src={URL.createObjectURL(file)}
+        alt="background"
+        className="object-cover h-full w-full"
+        />
+        </div>
+      )
+    }
+
       <div className="bg-white dark:bg-slate-800 h-full rounded-xl grow ">
-        <div className="flex gap-1  justify-center items-center h-full py-1 px-6">
+        <div className="flex gap-1  justify-center items-center h-full py-1 px-6 ">
+        <label htmlFor="file" className="cursor-pointer">
+        <input type="file" id="file"  className="hidden"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
           <svg
-            fill="#000000"
             version="1.1"
             id="Capa_1"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
-            width="800px"
-            height="800px"
             viewBox="0 0 950 950"
             xmlSpace="preserve"
-            className="w-5 h-5"
+            className="w-5 h-5 fill-slate-900 dark:fill-slate-300"
           >
             <g>
               <path
@@ -101,6 +156,7 @@ export const SendMessageForm = () => {
               />
             </g>
           </svg>
+          </label>
           <div className=" h-full grow">
             <input
               type="text"
@@ -108,33 +164,36 @@ export const SendMessageForm = () => {
               autoFocus
               onKeyDown={handleKey}
               value={text}
-              className="bg-transparent h-full w-full outline-none px-3"
+              className="bg-transparent h-full w-full outline-none px-3 dark:text-white"
               onChange={(e) => setText(e.target.value)}
             />
           </div>
           <svg
-            className="h-6 w-6 "
+            className="h-6 w-6 fill-slate-900 dark:fill-slate-300 cursor-pointer"
             fill="#000000"
-            width="800px"
-            height="800px"
             viewBox="0 0 56 56"
             xmlns="http://www.w3.org/2000/svg"
+            onClick={() => {
+              toast.warning("Not implemented yet, comming soon...");
+            }}
           >
             <path d="M 27.9999 51.9063 C 41.0546 51.9063 51.9063 41.0781 51.9063 28 C 51.9063 14.9453 41.0312 4.0937 27.9765 4.0937 C 14.8983 4.0937 4.0937 14.9453 4.0937 28 C 4.0937 41.0781 14.9218 51.9063 27.9999 51.9063 Z M 27.9999 47.9219 C 16.9374 47.9219 8.1014 39.0625 8.1014 28 C 8.1014 16.9609 16.9140 8.0781 27.9765 8.0781 C 39.0155 8.0781 47.8983 16.9609 47.9219 28 C 47.9454 39.0625 39.0390 47.9219 27.9999 47.9219 Z M 21.1796 25.8672 C 22.5624 25.8672 23.7109 24.6484 23.7109 22.9375 C 23.7109 21.2266 22.5624 20.0078 21.1796 20.0078 C 19.8202 20.0078 18.6952 21.2266 18.6952 22.9375 C 18.6952 24.6484 19.8202 25.8672 21.1796 25.8672 Z M 34.8905 25.8672 C 36.2733 25.8672 37.4218 24.6484 37.4218 22.9375 C 37.4218 21.2266 36.2733 20.0078 34.8905 20.0078 C 33.5077 20.0078 32.3827 21.2266 32.3827 22.9375 C 32.3827 24.6484 33.5077 25.8672 34.8905 25.8672 Z M 27.9999 39.2968 C 33.6483 39.2968 37.1874 35.2890 37.1874 33.7656 C 37.1874 33.4609 36.9530 33.3203 36.7187 33.5078 C 35.0077 34.9375 32.1249 36.3437 27.9999 36.3437 C 23.8514 36.3437 20.8983 34.8437 19.2577 33.5312 C 19.0234 33.3203 18.7890 33.4609 18.7890 33.7656 C 18.7890 35.2890 22.3280 39.2968 27.9999 39.2968 Z" />
           </svg>
         </div>
       </div>
-      <div className="bg-white dark:bg-slate-800 h-full rounded-xl px-3 cursor-not-allowed opacity-50">
+      <div className="bg-white dark:bg-slate-800 h-full rounded-xl px-3 cursor-not-allowed opacity-50" 
+      onClick={() => toast.warning("This is not my level yet 😁")}
+      >
         <div className="h-full flex justify-center items-center ">
           <svg
-            fill="#000000"
+            
             version="1.1"
             id="Capa_1"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 47.964 47.965"
             xmlSpace="preserve"
-            className="w-4 h-4"
+            className="w-4 h-4 fill-slate-900 dark:fill-slate-300"
           >
             <g>
               <g>
@@ -155,7 +214,7 @@ export const SendMessageForm = () => {
         </div>
       </div>
       <div
-        className="bg-red-600 h-full rounded-xl  px-3 opacity-80 hover:opacity-100 hover:py-0 cursor-pointer transition duration-500"
+        className="bg-red-600 h-full rounded-xl  px-3 opacity-70 hover:opacity-100 focus:opacity-100 hover:py-0 cursor-pointer transition duration-500"
         onClick={handleSend}
       >
         <div className="h-full flex justify-center items-center">

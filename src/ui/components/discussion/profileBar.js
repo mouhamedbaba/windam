@@ -1,4 +1,5 @@
 import { ChatContext } from "@/context/chatContext";
+import { toast } from "react-toastify";
 import React, { useContext } from "react";
 
 export const ProfileBar = () => {
@@ -17,10 +18,10 @@ export const ProfileBar = () => {
       <div className="h-full w-full flex flex-row gap-2 justify-center items-center py-4">
         <div className=" grow flex gap-2  ">
           <div className=" grow">
-            <div className="flex min-w-0 gap-x-2">
+            <div className="flex min-w-0 gap-x-5 items-center">
               <button
                 onClick={handleReturnToChats}
-                className="ms-2 w-8 h-8 rounded-full flex justify-center items-center"
+                className="ms-2 w-8 h-8 rounded-full flex justify-center items-center "
               >
                 <svg
                   viewBox="0 0 64 64"
@@ -67,17 +68,42 @@ export const ProfileBar = () => {
             <button className="bg-white text-slate-900 border px-5 rounded-2xl font-bold h-full">
               Profile
             </button>
-            <button
+{/*             <button
               className="text-white bg-slate-900 border px-5 rounded-2xl font-bold h-full disabled opacity-15 cursor-not-allowed"
               disabled
             >
               Call
-            </button>
+            </button> */}
           </div>
         </div>
-        <div className=" flex gap-2 border-l h-full ms-2  justify-center items-center animate-pulse">
-          <div className="me-2 w-10 h-10 rounded-full bg-slate-300"> </div>
-        </div>
+        <button
+          className=" flex gap-2 border-l h-full ms-2 px-3 cursor-pointer  justify-center items-center"
+          onClick={() => {
+            toast.warning("Coming soon !");
+          }}
+        >
+          <svg
+            width="30"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12Z"
+              className="fill-[#1C274C] dark:fill-slate-100"
+            />
+            <path
+              d="M21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12Z"
+              className="fill-[#1C274C] dark:fill-slate-100"
+            />
+            <path
+              opacity="0.5"
+              d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
+              className="fill-[#1C274C] dark:fill-slate-100"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   );

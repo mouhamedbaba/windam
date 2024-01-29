@@ -66,8 +66,8 @@ export const ChatContainer = () => {
               Object?.values(chats)?.length === 0 ? (
                 <div className="flex justify-center items-center h-full px-3">
                   <div className="">
-                    <img src="/assets/svg/nochat.jpg" />
-                    <h1 className="text-center font-semibold">
+                    <img src="/assets/svg/nochat.png" />
+                    <h1 className="text-center font-semibold dark:text-white">
                       Pas encore de discussions, explorer l'app et trouver des
                       amis{" "}
                     </h1>
@@ -139,6 +139,9 @@ export const ChatContainer = () => {
               )
             ) : (
               <>
+                <ChatPulse />
+                <ChatPulse />
+                <ChatPulse />
                 <ChatPulse />
                 <ChatPulse />
                 <ChatPulse />

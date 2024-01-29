@@ -105,9 +105,9 @@ return (
       ) : (
         <div className="flex justify-center items-center h-full px-3">
                     <div className="">
-                      <img src="/assets/svg/nochat.jpg" />
-                      <h1 className="text-center font-semibold">
-                       Clicker sur un messgaes pour l'ouvrir{" "}
+                      <img src="/assets/svg/nochat.png" />
+                      <h1 className="text-center font-semibold dark:text-white">
+                       Clickez sur un message pour l'ouvrir{" "}
                       </h1>
                     </div>
                   </div>
