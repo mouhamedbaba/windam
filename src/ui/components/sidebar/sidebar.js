@@ -27,7 +27,7 @@ export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers, isSidebarC
   };
 
   return (
-    <div className="h-full w-full bg-slate-900 md:bg-slate-950 rounded-3xl relative">
+    <div className="h-full w-full bg-lime-800  rounded-3xl relative">
     <div className="absolute
       -right-10 top-3" >
     <button
