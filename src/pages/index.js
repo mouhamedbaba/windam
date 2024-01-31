@@ -26,10 +26,10 @@ export default function Home() {
 
       <main>
         
-        <div className="bg-gray-100 font-sans">
+        <div className="bg-gray-100 font-sans ">
           {/* Hero Section */}
           <section className="text-white py-16 bg-lime-800  ">
-            <div className="container mx-auto text-center">
+            <div className="container  mx-auto text-center">
               <img
                 src="/assets/logos/logo.png"
                 alt="Windam Chat Logo"
@@ -80,16 +80,14 @@ export default function Home() {
                   utilisateurs est bien gérée.
                 </p>
               </div>
-              <img
-                src="/chat_image.png"
-                alt="Chat Image"
-                className="w-full max-w-3xl mx-auto rounded-lg shadow-md"
-              />
+                <video autoPlay muted loop className="w-full h-auto rounded-lg">
+                  <source src="/assets/videos/chat.mp4" type="video/mp4" />
+                </video>
             </div>
           </section>
 
           {/* Buy Me Coffee Section */}
-          <section className="bg-gray-200 py-16">
+          <section className="bg-gray-200 py-16 px-3">
             <div className="container mx-auto text-center">
               <h2 className="text-3xl font-bold mb-8">
                 Achetez-moi un café ☕
