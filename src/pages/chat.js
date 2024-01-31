@@ -6,7 +6,7 @@
   import { ChatContainer } from "@/ui/components/chats/ChatContainer";
   import { DiscussionContainer } from "@/ui/components/discussion/discussionContainer";
   import { ProfileBar } from "@/ui/components/discussion/profileBar";
-  import { SendMessageForm } from "@/ui/components/discussion/senMessageForm";
+  import { SendMessageForm } from "@/ui/components/discussion/sendMessageForm";
   import { SearchBar } from "@/ui/components/search/searchBar";
   import { Seo } from "@/ui/components/seo/seo";
   import { Sidebar } from "@/ui/components/sidebar/sidebar";

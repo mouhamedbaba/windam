@@ -115,18 +115,7 @@ export const SendMessageForm = () => {
         className="absolute h-fit max-h-96 w-fit max-w-full bg-slate-900 dark:bg-slate-900 rounded-xl bottom-14 overflow-hidden border-8 border-gray-600"
         >
         <div className="w-full h-full relative">
-        {
-          isUploading && (
-            <div className="absolute h-full w-full flex justify-center items-center ">
-            <svg  className="fill-slate-800 dark:fill-slate-50 h-10 w-10 animate-spin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <g>
-                <path fill="none" d="M0 0h24v24H0z"/>
-                <path d="M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z"/>
-            </g>
-        </svg>
-            </div>
-          )
-        }
+        
         <img 
         src={URL.createObjectURL(file)}
         alt="background"
@@ -235,7 +224,18 @@ export const SendMessageForm = () => {
         onClick={handleSend}
       >
         <div className="h-full flex justify-center items-center">
-          <svg
+        {
+          isUploading ? (
+            <div className="absolute h-full w-full flex justify-center items-center ">
+            <svg  className="fill-slate-800 dark:fill-slate-50 h-10 w-10 animate-spin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <path fill="none" d="M0 0h24v24H0z"/>
+                <path d="M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z"/>
+            </g>
+        </svg>
+            </div>
+          ) : (
+            <svg
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             id="send-alt"
@@ -258,6 +258,9 @@ export const SendMessageForm = () => {
               />
             </g>
           </svg>
+          )
+        }
+          
         </div>
       </div>
     </div>
