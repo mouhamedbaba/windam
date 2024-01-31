@@ -86,10 +86,11 @@ export const Message = ({ message }) => {
       }
 
         {message.file && (
-          <div>
-          <div className="bg-slate-400 w-fit max-w-full md:max-w-96  mt-1 rounded-lg overflow-hidden h-fit max-h-96 ">
+          <div className={`border-8 border-gray-600 rounded-xl  overflow-hidden bg-gray-600 ${
+            message.senderId === currentUser.uid ? " rounded-br-none  " : " rounded-bl-none"} `}>
+          <div className="bg-slate-400 w-fit max-w-full md:max-w-96   overflow-hidden h-fit max-h-96 object-center">
             <img
-              className="cursor-pointer hover:opacity-100 opacity-90 transition-all h-full w-full object-fill "
+              className="cursor-pointer hover:opacity-100 opacity-90 transition-all h-full w-full  "
               src={message.file}
               alt=""
             />
@@ -97,7 +98,7 @@ export const Message = ({ message }) => {
           {
             message.text !== "" && (
               
-              <div className="caption text-xs flex justify-end ms-8" >
+              <div className="caption flex justify-end ms-8 py-3" >
               {message.text}
               </div>
             )
