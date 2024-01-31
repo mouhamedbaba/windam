@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 export const SwithTeme = () => {
   const [theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  },[])
+
   const toggle = () => {
     if (!localStorage.getItem("theme")) {
       localStorage.setItem("theme", "light");
@@ -11,14 +18,13 @@ export const SwithTeme = () => {
     if (storedTheme === "light") {
       setTheme("dark");
       localStorage.setItem("theme", "dark");
-      document.getElementById("theme").classList.remove("light");
-      document.getElementById("theme").classList.add("dark");
+      document.documentElement.className = "dark";
     }
     if (storedTheme === "dark") {
       setTheme("light");
       localStorage.setItem("theme", "light");
-      document.getElementById("theme").classList.remove("dark");
-      document.getElementById("theme").classList.add("light");
+      document.documentElement.className = "light";
+      
     }
   };
 

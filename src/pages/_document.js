@@ -10,7 +10,7 @@ useEffect(() =>{
     console.log(theme);
 },[])
   return (
-    <Html lang="en" id="theme" className='dark'>
+    <Html lang="en" id="theme">
       <Head />
       <body className="max-h-screen overflow-auto md:overflow-hidden dark:bg-slate-900 bg-slate-200">
         <Main />

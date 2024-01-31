@@ -98,7 +98,7 @@ export const Message = ({ message }) => {
           {
             message.text !== "" && (
               
-              <div className="caption flex justify-end ms-8 py-3" >
+              <div className="caption text-lg font-semibold text-white flex justify-end ms-8 " >
               {message.text}
               </div>
             )

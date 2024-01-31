@@ -1,8 +1,7 @@
   import React, { useContext, useEffect, useState } from "react";
-  import { signOut } from "firebase/auth";
-  import { toast } from "react-toastify";
+
   import { useRouter } from "next/router";
-  import { auth, db } from "@/config/firebase";
+  import { db } from "@/config/firebase";
 
   import { ChatContainer } from "@/ui/components/chats/ChatContainer";
   import { DiscussionContainer } from "@/ui/components/discussion/discussionContainer";
@@ -22,7 +21,7 @@
 
   const Chat = () => {
     const { currentUser } = useContext(AuthContext);
-    const { dispatch, data } = useContext(ChatContext);
+    const {  data } = useContext(ChatContext);
     const router = useRouter();
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const [isUsersCollapsed, setIsUsersCollapsed] = useState(false);
@@ -74,19 +73,22 @@ const handleCollapseUsers = () => {
       };
 
       fetchChatData();
-    }, [currentUser]);
+    }, [currentUser, router]);
 
     if (!currentUser) {
       return null;
     }
 
     return (
+      <>
+        <Seo title="chats" description="messaging app" />
       <div className="py-4 mx-4 h-screen">
         <Wrapper>
           <div className="h-full flex gap-2">
             {/* aside */}
             <div className="md:w-1/12 h-full  hidden md:block">
               <Sidebar 
+              isSidebarCollapsed={isSidebarCollapsed}
               handleCollapseSidebar={handleCollapseSidebar}
               handleCollapseUsers={handleCollapseUsers}
               
@@ -115,6 +117,8 @@ const handleCollapseUsers = () => {
               <Sidebar
                 handleCollapseSidebar={handleCollapseSidebar}
                 handleCollapseUsers={handleCollapseUsers}
+              isSidebarCollapsed={isSidebarCollapsed}
+
               />
               
               </div>
@@ -137,6 +141,7 @@ const handleCollapseUsers = () => {
           </div>
         </Wrapper>
       </div>
+      </>
     );
   };
 

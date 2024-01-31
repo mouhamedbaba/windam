@@ -5,6 +5,7 @@ import { db, auth, googleProvider } from "@/config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Seo } from "@/ui/components/seo/seo";
 
 
 const Register = () => {
@@ -72,6 +73,10 @@ const Register = () => {
   };
 
   return (
+
+    <>
+    <Seo title="S'inscrire" description="S'inscrire sur windam"/>
+
     <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
    
       <h1 className="text-2xl font-bold mb-4 text-center">S'inscrire</h1>
@@ -153,6 +158,7 @@ const Register = () => {
       </div>
         <Link href="/auth/login" className="text-blue-500 flex justify-center font-bold">Se connecter</Link>
     </div>
+    </>
   );
 };
 

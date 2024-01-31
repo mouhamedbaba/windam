@@ -11,6 +11,7 @@ import { db, auth, googleProvider } from "@/config/firebase";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Seo } from "@/ui/components/seo/seo";
 
 const Login = () => {
   const router = useRouter();
@@ -71,6 +72,8 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Seo title="Login" description="Login to your account" />
     <div className="relative">
     {
       isLoading && (
@@ -155,6 +158,7 @@ const Login = () => {
       </Link>
     </div>
     </div>
+    </>
   );
 };
 

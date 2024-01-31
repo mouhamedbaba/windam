@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { SwithTeme } from "../SwithTeme";
-import { AllUsers } from "../chats/AllUsers";
+import Image from "next/image";
 
-export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
+export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers, isSidebarCollapsed }) => {
   const { currentUser } = useContext(AuthContext);
   const [isProfileIfoCollapsed, setIsProfileIfoCollapsed] = useState(true);
   const router = useRouter();
@@ -28,23 +28,47 @@ export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
 
   return (
     <div className="h-full w-full bg-slate-900 md:bg-slate-950 rounded-3xl relative">
-      <div className="py-3 px-4 h-full w-full flex flex-col gap-2 items-center">
-        <button
-          className="h-10  w-10 rounded-full flex justify-center items-center md:hidden"
-          onClick={handleCollapseSidebar}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="stroke-white fill-none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle id="primary" cx="12" cy="12" r="10"></circle>
-            <path
-              id="secondary"
-              d="M17,11H11V9.86a1,1,0,0,0-1.5-.69L6.38,11.31a.82.82,0,0,0,0,1.38L9.5,14.83a1,1,0,0,0,1.5-.69V13h6a1,1,0,0,0,0-2Z"
-            ></path>
-          </svg>
-        </button>
+    <div className="absolute
+      -right-10 top-3" >
+    <button
+    className="h-10  w-10 rounded-full flex justify-center items-center md:hidden"
+    onClick={handleCollapseSidebar}
+  >
+  {
+    isSidebarCollapsed ? (
+      <svg
+        viewBox="0 0 24 24"
+        className="stroke-white fill-slate-900"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle id="primary" cx="12" cy="12" r="10"></circle>
+        <path
+          id="secondary"
+          d="M17,11H11V9.86a1,1,0,0,0-1.5-.69L6.38,11.31a.82.82,0,0,0,0,1.38L9.5,14.83a1,1,0,0,0,1.5-.69V13h6a1,1,0,0,0,0-2Z"
+        ></path>
+      </svg>
+      
+    ) : (
+      <svg
+      viewBox="0 0 24 24"
+      className="stroke-white fill-slate-900 animate-spin"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+    <circle id="primary" cx="12" cy="12" r="10" ></circle><path id="secondary" d="M17.62,11.31,14.5,9.17a1,1,0,0,0-1.5.69V11H7a1,1,0,0,0,0,2h6v1.14a1,1,0,0,0,1.5.69l3.12-2.14A.82.82,0,0,0,17.62,11.31Z"></path>
+    </svg>
+    )
+  }
+  </button>
+    </div>
+      <div className={"py-3 px-4 h-full w-full flex flex-col gap-2 items-center "}>
+      <Image
+      src="/assets/logos/logo.png"
+      alt="logo"
+      width={100}
+      height={100}
+      className="my-auto w-10 h-10 md:w-20 md:h-20
+   "
+      />
         <div className=" my-auto flex rounded-full grow flex-col justify-center  items-center gap-8"
         
         >
@@ -122,7 +146,6 @@ export const Sidebar = ({ handleCollapseSidebar, handleCollapseUsers }) => {
           )}
         </div>
       </div>
-
       <div
         className={`transition duration-1000 ${
           isProfileIfoCollapsed

@@ -1,4 +1,5 @@
 import { AuthContext } from "@/context/authContext";
+import { Seo } from "@/ui/components/seo/seo";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
@@ -23,6 +24,9 @@ const handleSelect = async () => {
 
 
   return (
+    <>
+    <Seo title="Acceuil" description="messaging app" />
+
     <main
     className={`flex min-h-screen flex-col items-center justify-between p-24 relative`}
     >
@@ -42,5 +46,6 @@ const handleSelect = async () => {
     onClick={handleSelect}
     >Get started</button>
     </main>
+    </>
   );
 }
