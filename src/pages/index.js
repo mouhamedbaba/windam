@@ -62,7 +62,7 @@ export default function Home() {
           </section>
 
           {/* About Section */}
-          <section className="py-16">
+          <section className="py-16 px-4">
             <div className="container mx-auto text-center">
               <h2 className="text-3xl font-bold mb-8">
                 À propos de Windam Chat
@@ -87,7 +87,7 @@ export default function Home() {
           </section>
 
           {/* Buy Me Coffee Section */}
-          <section className="bg-gray-200 py-16 px-3">
+          <section className="bg-gray-200 py-16 mx-3">
             <div className="container mx-auto text-center">
               <h2 className="text-3xl font-bold mb-8">
                 Achetez-moi un café ☕
