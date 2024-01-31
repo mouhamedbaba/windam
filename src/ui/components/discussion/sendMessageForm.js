@@ -226,14 +226,12 @@ export const SendMessageForm = () => {
         <div className="h-full flex justify-center items-center">
         {
           isUploading ? (
-            <div className="absolute h-full w-full flex justify-center items-center ">
-            <svg  className="fill-slate-800 dark:fill-slate-50 h-10 w-10 animate-spin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg  className="fill-white  w-4 h-4 animate-spin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <g>
                 <path fill="none" d="M0 0h24v24H0z"/>
                 <path d="M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z"/>
             </g>
         </svg>
-            </div>
           ) : (
             <svg
             viewBox="0 0 24 24"
