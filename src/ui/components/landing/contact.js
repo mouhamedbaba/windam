@@ -1,6 +1,10 @@
 import React, { useState }   from 'react'
 import { faFacebook, faInstagram, faInstagramSquare, faLinkedin, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Timestamp, doc, setDoc } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import { v4 as uuid } from "uuid";
+import { toast } from 'react-toastify';
 
 
 export const Contact = () => {
@@ -8,6 +12,7 @@ export const Contact = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [isLoading, setisLoading] = useState(false);
   
     const handleNameChange = (e) => {
       setName(e.target.value);
@@ -21,14 +26,35 @@ export const Contact = () => {
       setMessage(e.target.value);
     };
   
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Add your logic to handle the form submission here
-      console.log('Name:', name);
-      console.log('Email:', email);
-      console.log('Message:', message);
-      // You can add an API call or any other handling as needed
-    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setisLoading(true);
+        try {
+          // Omit the document ID to let Firestore generate one automatically
+          const docRef = doc(db, "contacts", uuid());
+      
+          // Using Firestore's setDoc to add a new document to the "contacts" collection
+          await setDoc(docRef, {
+            email,
+            name,
+            message,
+            date: Timestamp.now(),
+          });
+      
+          // Clearing the form fields and updating the loading state
+          setEmail("");
+          setName("");
+          setMessage("");
+          setisLoading(false);
+          toast.success("Message sent successfully");
+        } catch (error) {
+          // Handle any potential errors that may occur during the database operation
+          console.error("Error submitting form:", error);
+          setisLoading(false);
+          toast.error("Error submitting form");
+        }
+      };
+
 
   return (
     <section className="bg-gray-200 py-16 px-4  text-center">
@@ -97,7 +123,7 @@ export const Contact = () => {
               type="submit"
               className="px-4 py-2 w-full bg-lime-500 font-bold text-white rounded-md hover:shadow-lg focus:outline-none"
             >
-              Submit
+              {!isLoading ? "Envoyer" : "En cours..."}
             </button>
           </div>
         </form>
