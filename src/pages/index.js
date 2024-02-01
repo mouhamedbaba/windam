@@ -93,7 +93,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold mb-8">
                 À propos de Windam Chat
               </h2>
-              <div className="container font-semibold  px-4 mx-20 max-w-6xl border-l-4 border-lime-600 text-start">
+              <div className="container font-semibold  px-4 mx-auto border-l-4 border-lime-600 text-start">
                 <p className="text-lg mb-4">
                   Windam Chat a été créé dans le cadre du développement des
                   compétences et de l'expérimentation avec Firebase. Il n'est
