@@ -3,11 +3,37 @@ import { Seo } from "@/ui/components/seo/seo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faInstagramSquare, faLinkedin, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export default function Home() {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add your logic to handle the form submission here
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('Message:', message);
+    // You can add an API call or any other handling as needed
+  };
 
   const handleSelect = async () => {
     setIsLoading(false);
@@ -26,9 +52,9 @@ export default function Home() {
 
       <main>
         
-        <div className="bg-gray-100 font-sans ">
+        <div className="bg-gray-100 ">
           {/* Hero Section */}
-          <section className="text-white py-16 bg-lime-800  ">
+          <section className="text-white py-16 bg-lime-600  ">
             <div className="container  mx-auto text-center">
               <img
                 src="/assets/logos/logo.png"
@@ -39,7 +65,7 @@ export default function Home() {
                 Bienvenue sur Windam Chat
               </h1>
               <p className="text-lg mb-8">
-                Connectez-vous et discutez avec vos amis en toute simplicité.
+                Connectez-vous et essayez le chat ! 
               </p>
               <button
                 onClick={handleSelect}
@@ -67,7 +93,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold mb-8">
                 À propos de Windam Chat
               </h2>
-              <div className="container mx-auto text-center">
+              <div className="container font-semibold  px-4 mx-20 max-w-6xl border-l-4 border-lime-600 text-start">
                 <p className="text-lg mb-4">
                   Windam Chat a été créé dans le cadre du développement des
                   compétences et de l'expérimentation avec Firebase. Il n'est
@@ -87,10 +113,10 @@ export default function Home() {
           </section>
 
           {/* Buy Me Coffee Section */}
-          <section className="bg-gray-200 py-16 mx-3">
+          <section className="bg-lime-200 py-16 mb-8">
             <div className="container mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-8">
-                Achetez-moi un café ☕
+              <h2 className="text-3xl font-bold mb-8 ">
+                Buy Me a Coffee ☕
               </h2>
               <p className="text-lg mb-4">
                 Si vous appréciez Windam Chat et souhaitez soutenir le
@@ -107,46 +133,121 @@ export default function Home() {
           </section>
 
           {/* Contact Section */}
-          <section className="bg-gray-200 py-16">
-            <div className="container mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-8">Contactez-nous</h2>
-              <p className="text-lg mb-4">
-                Avez-vous des questions ou des commentaires ? N'hésitez pas à
-                nous
-                <Link
-                  href="/contact"
-                  a
-                  className="text-blue-500 hover:underline"
-                >
-                  contacter
-                </Link>
-                .
-              </p>
+          <section className="bg-gray-200 py-16 px-4  text-center">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center  ">
+          <div>
+            <h2 className="text-3xl font-bold mb-4">Contact Information</h2>
+            <p className="text-lg mb-4">Feel free to reach out to us:</p>
+            <p className="text-gray-600">Email: example@example.com</p>
+            <p className="text-gray-600">Phone: +1 (123) 456-7890</p>
+            <p className="text-gray-600">Address: 123 Main St, Cityville</p>
+            <p className="mt-6">
+              Need assistance?{" "}
+              <a href="#" className="text-blue-500 hover:underline">
+                Get in Touch
+              </a>
+            </p>
+          </div>
+            {/* Column for Input Fields */}
+            <div className="text-start">
+              <h2 className="text-3xl font-bold mb-8">Contact Us</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-600">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={handleNameChange}
+                    className="bg-transparent  w-full border border-slate-300  rounded-md py-2 px-3 focus:outline-none focus:border-lime-500"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    className="bg-transparent  w-full border border-slate-300  rounded-md py-2 px-3 focus:outline-none focus:border-lime-500"
+                    required
+                  />
+                </div>
+                <div className="mb-6">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-600">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    value={message}
+                    onChange={handleMessageChange}
+                    className="bg-transparent  w-full border border-slate-300  rounded-md py-2 px-3 focus:outline-none focus:border-lime-500"
+                    required
+                  ></textarea>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 w-full bg-lime-500 font-bold text-white rounded-md hover:shadow-lg focus:outline-none"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
-          </section>
+    
+            {/* Column for Contact Information */}
+          </div>
+        </section>
 
           {/* Social Links Section */}
           <section className="bg-gray-100 py-16">
-            <div className="container mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-8">
-                Suivez-nous sur les réseaux sociaux
-              </h2>
-              <div className="flex justify-center space-x-4">
-                <Link
-                  href="https://www.linkedin.com/in/mouhamedbaba"
-                  className="text-blue-500 hover:underline"
-                >
-                  LinkedIn
-                </Link>
-                <Link
-                  href="https://twitter.com/mouhamedbaba"
-                  className="text-blue-500 hover:underline"
-                >
-                  Twitter
-                </Link>
-              </div>
+          <div className="container mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8">
+              Follow us on social media
+            </h2>
+            <div className="flex justify-center space-x-4">
+              <a
+                href="https://www.linkedin.com/in/mouhamedbaba"
+                className="text-blue-500 hover:underline"
+              >
+                <FontAwesomeIcon icon={faLinkedin} size="2x" />
+               
+              </a>
+              <a
+                href="https://twitter.com/mouhamedbaba"
+                className="text-blue-500 hover:underline"
+              >
+                <FontAwesomeIcon icon={faTwitter} size="2x" />
+                
+              </a>
+              <a
+                href="https://twitter.com/mouhamedbaba"
+                className="text-blue-500 hover:underline"
+              >
+                <FontAwesomeIcon icon={faFacebook} size="2x" />
+                
+              </a>
+              <a
+                href="https://twitter.com/mouhamedbaba"
+                className="text-blue-500 hover:underline"
+              >
+                <FontAwesomeIcon icon={faInstagramSquare} size="2x" />
+                
+              </a>
+              {/* Add more social icons as needed */}
             </div>
-          </section>
+          </div>
+        </section>
 
           {/* Footer Section */}
           <footer className="bg-gray-900 text-white py-8">
