@@ -138,9 +138,9 @@ export default function Home() {
           <div>
             <h2 className="text-3xl font-bold mb-4">Contact Information</h2>
             <p className="text-lg mb-4">Feel free to reach out to us:</p>
-            <p className="text-gray-600">Email: example@example.com</p>
-            <p className="text-gray-600">Phone: +1 (123) 456-7890</p>
-            <p className="text-gray-600">Address: 123 Main St, Cityville</p>
+            <p className="text-gray-600 text-start ">Email: mouhamedlamotte.dev@gmail.com</p>
+            <p className="text-gray-600 text-start">Phone: +221 77 093-42-13</p>
+            <p className="text-gray-600 text-start">Address: Mariste, Dakar</p>
             <p className="mt-6">
               Need assistance?{" "}
               <a href="#" className="text-blue-500 hover:underline">
@@ -217,28 +217,28 @@ export default function Home() {
             </h2>
             <div className="flex justify-center space-x-4">
               <a
-                href="https://www.linkedin.com/in/mouhamedbaba"
+                href="https://www.linkedin.com/in/mouhamed-baba-lamotte-876291252/"
                 className="text-blue-500 hover:underline"
               >
                 <FontAwesomeIcon icon={faLinkedin} size="2x" />
                
               </a>
               <a
-                href="https://twitter.com/mouhamedbaba"
+                href="https://twitter.com/MouhamedLamotly"
                 className="text-blue-500 hover:underline"
               >
                 <FontAwesomeIcon icon={faTwitter} size="2x" />
                 
               </a>
               <a
-                href="https://twitter.com/mouhamedbaba"
+                href="https://www.facebook.com/mohamedbabalamotte/"
                 className="text-blue-500 hover:underline"
               >
                 <FontAwesomeIcon icon={faFacebook} size="2x" />
                 
               </a>
               <a
-                href="https://twitter.com/mouhamedbaba"
+                href="https://www.instagram.com/_mouhamed_baba/"
                 className="text-blue-500 hover:underline"
               >
                 <FontAwesomeIcon icon={faInstagramSquare} size="2x" />
@@ -255,7 +255,7 @@ export default function Home() {
               <p>&copy; 2024 Windam Chat. Tous droits réservés.</p>
               <p>
                 <Link
-                  href="https://mouhamedbaba.dev"
+                  href="#"
                   className="text-blue-500 hover:underline"
                 >
                   Mouhamed Baba - Portfolio
